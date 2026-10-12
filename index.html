@@ -180,20 +180,6 @@
         <div class="card-desc">출결 확인서·학생선수 신고서를 한글·워드로 만들고 인쇄합니다. 명단은 이 PC에만 저장되니 공용 PC에서는 사용 후 지워 주세요.</div>
         <div class="card-cta">작성하기 →</div>
       </a>
-
-      <div class="portal-card lunch" onclick="openSheet('lunch')">
-        <div class="icon">🍚</div>
-        <div class="card-title">중식지도 시트</div>
-        <div class="card-desc">스프레드시트에서 이번 학기 전체 중식지도 배정표를 확인합니다.</div>
-        <div class="card-cta">시트 열기 ↗</div>
-      </div>
-
-      <div class="portal-card futsal" onclick="openSheet('futsal')">
-        <div class="icon">⚽</div>
-        <div class="card-title">풋살장지도 시트</div>
-        <div class="card-desc">스프레드시트에서 이번 학기 전체 풋살장지도 배정표를 확인합니다.</div>
-        <div class="card-cta">시트 열기 ↗</div>
-      </div>
     </div>
   </section>
 
@@ -309,6 +295,7 @@
   }
   function errMsg(err) {
     if (err && err.name === 'AbortError') return '응답이 늦어 불러오지 못했습니다. 잠시 후 새로고침해 주세요.';
+    if (err && err.name === 'TypeError') return '서버에 연결하지 못했습니다. 인터넷 연결을 확인한 뒤 새로고침해 주세요.';
     return (err && err.message) ? err.message : String(err || '오류');
   }
 
