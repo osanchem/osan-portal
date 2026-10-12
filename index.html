@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오산고 교직원 포털</title>
+  <link rel="icon" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="preconnect" href="https://script.googleusercontent.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ 헤더 ============ -->
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="brand-logo" role="img" aria-label="오산고 로고"></div>
+    <div>
+      <span class="brand-title" onclick="go('portal')">오산고 교직원 포털</span>
+      <span class="brand-sub">Osan High School</span>
+    </div>
+    <button class="header-btn" onclick="openAddToHome()" title="즐겨찾기에 추가">
+      ⭐ <span class="hide-sm">즐겨찾기 추가</span>
+    </button>
+    <button id="backBtn" class="header-btn" style="display:none" onclick="go('portal')">
+      ← <span class="hide-sm">메인으로</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ 즐겨찾기 추가 안내 모달 ============ -->
+<div id="addHomeModal" class="modal-overlay" onclick="if(event.target===this) closeAddToHome()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">⭐ 오산고 교직원 포털을 즐겨찾기에 추가</div>
+      <button class="modal-close" onclick="closeAddToHome()" aria-label="닫기">✕</button>
+    </div>
+    <p class="modal-desc">사용하시는 기기·브라우저에 맞는 방법을 참고하세요.</p>
+
+    <div class="tabs" id="addHomeTabs">
+      <button class="tab active" data-tab="desktop">데스크톱</button>
+      <button class="tab" data-tab="android">Android</button>
+      <button class="tab" data-tab="ios">iPhone·iPad</button>
+    </div>
+
+    <div class="tab-panel active" data-panel="desktop">
+      <ol class="steps">
+        <li>단축키로 즐겨찾기 창을 엽니다: <span class="kbd">Ctrl</span>+<span class="kbd">D</span> (Mac은 <span class="kbd">⌘</span>+<span class="kbd">D</span>).</li>
+        <li>이름을 <b>「오산고 교직원 포털」</b>로 두고 저장 위치를 <b>「즐겨찾기 바」</b>로 선택하면 브라우저 상단에 상시 표시됩니다.</li>
+        <li>주소창 오른쪽의 <b>별표(☆) 아이콘</b>을 눌러도 같은 결과입니다.</li>
+      </ol>
+    </div>
+    <div class="tab-panel" data-panel="android">
+      <ol class="steps">
+        <li>Chrome 주소창 오른쪽 <b>⋮ 메뉴</b>를 누른 뒤, 상단의 <b>별표(☆) 아이콘</b>을 탭합니다.</li>
+        <li>같은 메뉴의 <b>「홈 화면에 추가」</b>를 누르면 앱처럼 아이콘이 생깁니다.</li>
+        <li>이후 주소창에 <b>「오산고」</b>만 입력해도 자동 완성으로 빠르게 이동할 수 있습니다.</li>
+      </ol>
+    </div>
+    <div class="tab-panel" data-panel="ios">
+      <ol class="steps">
+        <li>Safari 하단(또는 상단)의 <b>공유 버튼</b>(⬆)을 누릅니다.</li>
+        <li><b>「홈 화면에 추가」</b> 또는 <b>「즐겨찾기에 추가」</b>를 선택하고 저장합니다.</li>
+        <li>홈 화면 아이콘이나 즐겨찾기(책 모양 아이콘)에서 언제든 열 수 있습니다.</li>
+      </ol>
+    </div>
+
+    <div class="url-box">
+      <div class="url-label">포털 링크</div>
+      <div class="url-row">
+        <input type="text" id="webAppUrlInput" readonly onclick="this.select()">
+        <button class="btn small" onclick="copyWebAppUrl()">📋 복사</button>
+      </div>
+      <div class="url-hint">이 링크를 동료 선생님께 공유하셔도 됩니다. 구글 계정 로그인 여부와 관계없이 열립니다.</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ============ 1. 포털 메인 ============ -->
+  <section id="view-portal" class="view">
+    <div class="portal-hero">
+      <h1>오늘, 오산고 교직원실</h1>
+      <p>중식·풋살장 지도 담당자와 시설 보수 신청을 한 곳에서 확인하세요.</p>
+      <div class="today-badge" id="todayBadge">오늘</div>
+    </div>
+
+    <div class="today-duty">
+      <div class="duty-summary" onclick="openSheet('lunch')">
+        <div class="duty-summary-head">
+          <div class="duty-summary-title"><span class="em">🍚</span> 오늘의 중식지도</div>
+          <div class="duty-summary-more">시트 열기 ↗</div>
+        </div>
+        <div class="duty-summary-body" id="summaryLunch">
+          <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+        </div>
+      </div>
+      <div class="duty-summary" onclick="openSheet('futsal')">
+        <div class="duty-summary-head">
+          <div class="duty-summary-title"><span class="em">⚽</span> 오늘의 풋살장지도</div>
+          <div class="duty-summary-more">시트 열기 ↗</div>
+        </div>
+        <div class="duty-summary-body" id="summaryFutsal">
+          <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="portal-card repair" onclick="go('repair')">
+        <div class="icon">🔧</div>
+        <div class="card-title">보수신청</div>
+        <div class="card-desc">교내 시설 보수를 신청하고 처리 상태를 조회합니다.</div>
+        <div class="card-cta">신청·조회 →</div>
+      </div>
+
+      <div class="portal-card lunch" onclick="openSheet('lunch')">
+        <div class="icon">🍚</div>
+        <div class="card-title">중식지도 시트</div>
+        <div class="card-desc">스프레드시트에서 이번 학기 전체 중식지도 배정표를 확인합니다.</div>
+        <div class="card-cta">시트 열기 ↗</div>
+      </div>
+
+      <div class="portal-card futsal" onclick="openSheet('futsal')">
+        <div class="icon">⚽</div>
+        <div class="card-title">풋살장지도 시트</div>
+        <div class="card-desc">스프레드시트에서 이번 학기 전체 풋살장지도 배정표를 확인합니다.</div>
+        <div class="card-cta">시트 열기 ↗</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. 보수신청 ============ -->
+  <section id="view-repair" class="view">
+    <div class="repair-head">
+      <div>
+        <h2 class="page-title">보수신청</h2>
+        <p class="page-desc">교내 시설의 보수가 필요한 사항을 신청합니다. 접수된 내역과 처리 상태는 시트에서 바로 확인할 수 있습니다.</p>
+      </div>
+      <button class="btn secondary" onclick="openSheet('repair')" title="접수된 신청 이력을 시트에서 확인">
+        ↗ 시트에서 확인
+      </button>
+    </div>
+
+    <div class="duty-card">
+      <h3 style="margin:0 0 14px; font-size:16px;">📝 새 신청</h3>
+      <form id="repairForm" onsubmit="submitRepair(event)">
+        <div class="form-row two-col">
+          <div>
+            <label for="rq-requester">신청자 *</label>
+            <input type="text" id="rq-requester" required maxlength="50" placeholder="예: 김철수">
+          </div>
+          <div>
+            <label for="rq-location">보수 장소 *</label>
+            <input type="text" id="rq-location" required maxlength="100" placeholder="예: 2층 남자화장실">
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="rq-priority">긴급도</label>
+          <select id="rq-priority"></select>
+        </div>
+        <div class="form-row">
+          <label for="rq-details">보수 내역 *</label>
+          <textarea id="rq-details" required maxlength="2000" placeholder="어떤 부분에 어떤 문제가 있는지 구체적으로 적어 주세요."></textarea>
+        </div>
+        <div class="form-row">
+          <label for="rq-photo">사진 URL (선택)</label>
+          <input type="text" id="rq-photo" maxlength="500" placeholder="드라이브 등에 업로드한 사진 링크">
+        </div>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button type="reset" class="btn secondary">초기화</button>
+          <button type="submit" class="btn" id="submitBtn">신청 등록</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+  // ============================================================
+  // 설정
+  // ============================================================
+  // Apps Script 웹앱 주소. '배포 관리 → 편집 → 새 버전'으로 배포하면 이 주소가 유지됩니다.
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxlLejqQXgSe7eHsIz9h2J1HaktfMJPMi_bjCNYlQ4gxMjI95hJ8rk9pukkJ2Tli3Nz/exec';
+
+  // API가 응답하지 않을 때도 '시트 열기'가 동작하도록 두는 예비 링크
+  const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/1Wa2Br6DfXIfRoo8LrwZ_tFxbgWFZDrF5PFjJdNgJdtE/edit';
+  let SHEET_URLS = { base: SHEET_BASE, lunch: SHEET_BASE, futsal: SHEET_BASE, repair: SHEET_BASE };
+
+  const DEFAULT_PRIORITY = ['낮음', '보통', '높음', '긴급'];
+  let META = { priorityList: DEFAULT_PRIORITY };
+
+  const CACHE_KEY = 'osan-portal-v1';
+  const TIMEOUT_MS = 15000;
+
+  // ============================================================
+  // 브라우저 캐시 (마지막으로 받은 데이터를 즉시 보여 주기 위함)
+  // ============================================================
+  function todayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  }
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch (_) { return null; }
+  }
+  function writeCache(data) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ day: todayKey(), savedAt: Date.now(), data })); } catch (_) {}
+  }
+
+  // ============================================================
+  // API 호출
+  // ============================================================
+  async function apiGet(action) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+    try {
+      const res = await fetch(`${API_URL}?api=${encodeURIComponent(action)}`, { signal: ctrl.signal });
+      if (!res.ok) throw new Error(`서버 응답 오류 (${res.status})`);
+      return await res.json();
+    } finally {
+      clearTimeout(t);
+    }
+  }
+  async function apiPost(action, payload) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+    try {
+      // Content-Type을 지정하지 않아야(text/plain) CORS 사전 요청 없이 Apps Script로 전달됩니다.
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action, payload }),
+        signal: ctrl.signal,
+      });
+      if (!res.ok) throw new Error(`서버 응답 오류 (${res.status})`);
+      return await res.json();
+    } finally {
+      clearTimeout(t);
+    }
+  }
+  function errMsg(err) {
+    if (err && err.name === 'AbortError') return '응답이 늦어 불러오지 못했습니다. 잠시 후 새로고침해 주세요.';
+    return (err && err.message) ? err.message : String(err || '오류');
+  }
+
+  // ============================================================
+  // 초기 데이터
+  // ============================================================
+  function applyInit(data, stale) {
+    if (data.sheetUrls && data.sheetUrls.base) SHEET_URLS = data.sheetUrls;
+    if (data.meta && data.meta.priorityList && data.meta.priorityList.length) {
+      META = data.meta;
+      fillFormSelects();
+    }
+    if (data.duty) renderPortalSummary(data.duty, stale);
+  }
+
+  async function loadInit() {
+    // 1) 오늘 저장해 둔 데이터가 있으면 먼저 보여 줍니다.
+    const cached = readCache();
+    const hasCache = cached && cached.day === todayKey() && cached.data;
+    if (hasCache) applyInit(cached.data, true);
+    else if (cached && cached.data) applyInit({ sheetUrls: cached.data.sheetUrls, meta: cached.data.meta }, false);
+
+    // 2) 서버에서 최신 데이터를 받아 교체합니다.
+    try {
+      const r = await apiGet('init');
+      if (!r || !r.ok) throw new Error((r && r.msg) || '조회 실패');
+      applyInit(r, false);
+      writeCache({ duty: r.duty, sheetUrls: r.sheetUrls, meta: r.meta });
+    } catch (err) {
+      if (hasCache) {
+        document.querySelectorAll('.duty-stale').forEach(el => {
+          el.textContent = '최신 정보를 불러오지 못해 오늘 앞서 저장된 정보를 표시하고 있습니다.';
+        });
+      } else {
+        const html = summaryErr(err);
+        document.getElementById('summaryLunch').innerHTML  = html;
+        document.getElementById('summaryFutsal').innerHTML = html;
+      }
+    }
+  }
+
+  // ============================================================
+  // 즐겨찾기 모달
+  // ============================================================
+  function openAddToHome() {
+    document.getElementById('webAppUrlInput').value = location.origin + location.pathname;
+    document.getElementById('addHomeModal').classList.add('show');
+    autoSelectTab();
+  }
+  function closeAddToHome() {
+    document.getElementById('addHomeModal').classList.remove('show');
+  }
+  function autoSelectTab() {
+    const ua = navigator.userAgent || '';
+    let target = 'desktop';
+    if (/iPhone|iPad|iPod/i.test(ua)) target = 'ios';
+    else if (/Android/i.test(ua))     target = 'android';
+    switchTab(target);
+  }
+  function switchTab(name) {
+    document.querySelectorAll('#addHomeTabs .tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.tab === name));
+    document.querySelectorAll('.tab-panel').forEach(p =>
+      p.classList.toggle('active', p.dataset.panel === name));
+  }
+  function copyWebAppUrl() {
+    const input = document.getElementById('webAppUrlInput');
+    const url = input.value;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        () => toast('링크가 복사되었습니다', 'ok'),
+        () => fallbackCopy(input)
+      );
+    } else {
+      fallbackCopy(input);
+    }
+  }
+  function fallbackCopy(input) {
+    try {
+      input.select();
+      const ok = document.execCommand('copy');
+      toast(ok ? '링크가 복사되었습니다' : '복사 실패 — 직접 복사해 주세요.', ok ? 'ok' : 'err');
+    } catch (_) {
+      toast('복사 실패 — 직접 복사해 주세요.', 'err');
+    }
+  }
+
+  // ============================================================
+  // 화면 전환 (주소 뒤 #repair 로 보수신청 화면에 바로 들어갈 수 있음)
+  // ============================================================
+  function go(name) {
+    if (name === 'portal') history.pushState(null, '', location.pathname);
+    else location.hash = name;
+    showView(name);
+  }
+  function showView(name) {
+    if (!document.getElementById('view-' + name)) name = 'portal';
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.getElementById('backBtn').style.display = (name === 'portal') ? 'none' : 'inline-block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  window.addEventListener('hashchange', () => showView(location.hash.slice(1) || 'portal'));
+  window.addEventListener('popstate',   () => showView(location.hash.slice(1) || 'portal'));
+
+  // ============================================================
+  // 시트 열기
+  // ============================================================
+  function openSheet(kind) {
+    const url = SHEET_URLS[kind] || SHEET_URLS.base || SHEET_BASE;
+    window.open(url, '_blank', 'noopener');
+  }
+
+  // ============================================================
+  // 오늘의 근무명단
+  // ============================================================
+  function renderPortalSummary(all, stale) {
+    const note = stale ? '<div class="duty-stale"></div>' : '';
+    document.getElementById('summaryLunch').innerHTML  = summaryHtml(all && all.lunch) + note;
+    document.getElementById('summaryFutsal').innerHTML = summaryHtml(all && all.futsal) + note;
+  }
+  function summaryHtml(r) {
+    if (!r || !r.ok) {
+      return `<div class="duty-summary-empty">⚠ ${escapeHtml((r && r.msg) || '조회 실패')}</div>`;
+    }
+    if (!r.officers || !r.officers.length) {
+      return `<div class="duty-summary-empty">${escapeHtml(r.msg || '오늘 배정된 담당자가 없습니다.')}</div>`;
+    }
+    const groups = {};
+    const order = [];
+    r.officers.forEach(o => {
+      const z = o.zone || '';
+      if (!(z in groups)) { groups[z] = []; order.push(z); }
+      groups[z].push(o.name);
+    });
+    return order.map(z => `
+      <div class="zone-group">
+        ${z ? `<span class="zone-label">${escapeHtml(z)}</span>` : ''}
+        <div class="zone-names">
+          ${groups[z].map(n => `<span class="duty-chip">${escapeHtml(n)}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+  function summaryErr(err) {
+    return `<div class="duty-summary-empty">⚠ ${escapeHtml(errMsg(err))}</div>`;
+  }
+
+  function updateTodayBadge() {
+    const d = new Date();
+    const wd = ['일','월','화','수','목','금','토'][d.getDay()];
+    document.getElementById('todayBadge').textContent =
+      `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${wd})`;
+  }
+
+  // ============================================================
+  // 토스트
+  // ============================================================
+  let toastTimer;
+  function toast(msg, type) {
+    const el = document.getElementById('toast');
+    el.className = 'toast show ' + (type || '');
+    el.textContent = msg;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.classList.remove('show'); }, 2600);
+  }
+
+  // ============================================================
+  // 보수신청
+  // ============================================================
+  function fillFormSelects() {
+    const pri = document.getElementById('rq-priority');
+    const cur = pri.value;
+    pri.innerHTML = META.priorityList.map(v => {
+      const sel = (cur ? v === cur : v === '보통') ? 'selected' : '';
+      return `<option value="${escapeHtml(v)}" ${sel}>${escapeHtml(v)}</option>`;
+    }).join('');
+  }
+
+  async function submitRepair(ev) {
+    ev.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '등록 중…';
+
+    const payload = {
+      requester: document.getElementById('rq-requester').value,
+      location:  document.getElementById('rq-location').value,
+      priority:  document.getElementById('rq-priority').value,
+      details:   document.getElementById('rq-details').value,
+      photo:     document.getElementById('rq-photo').value,
+    };
+
+    try {
+      const r = await apiPost('submit', payload);
+      if (r && r.ok) {
+        toast(`신청 완료 (ID: ${r.id})`, 'ok');
+        document.getElementById('repairForm').reset();
+        document.getElementById('rq-priority').value = '보통';
+      } else {
+        toast((r && r.msg) || '등록 실패', 'err');
+      }
+    } catch (err) {
+      toast(errMsg(err), 'err');
+    } finally {
+      btn.disabled = false; btn.textContent = '신청 등록';
+    }
+  }
+
+  // ============================================================
+  // 유틸
+  // ============================================================
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ============================================================
+  // 초기화
+  // ============================================================
+  updateTodayBadge();
+  fillFormSelects();
+  // 예전 주소 형식(?view=repair)도 지원
+  const qsView = new URLSearchParams(location.search).get('view');
+  showView(location.hash.slice(1) || qsView || 'portal');
+  loadInit();
+
+  document.addEventListener('click', function (e) {
+    const tab = e.target.closest && e.target.closest('#addHomeTabs .tab');
+    if (tab) switchTab(tab.dataset.tab);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAddToHome();
+  });
+</script>
+
+</body>
+</html>
