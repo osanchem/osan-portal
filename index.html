@@ -20,8 +20,14 @@
       <span class="brand-title" onclick="go('portal')">오산고 교직원 포털</span>
       <span class="brand-sub">Osan High School</span>
     </div>
-    <button class="header-btn" onclick="openAddToHome()" title="즐겨찾기에 추가">
+    <a class="eduptl-link" href="https://sen.eduptl.kr/" target="_blank" rel="noopener" title="서울특별시교육청 업무포털을 새 탭에서 엽니다">
+      업무포털<span class="hide-sm"> 바로가기</span> ↗
+    </a>
+    <button class="header-btn" onclick="openModal('addHomeModal')" title="즐겨찾기에 추가">
       ⭐ <span class="hide-sm">즐겨찾기 추가</span>
+    </button>
+    <button class="header-btn" onclick="openModal('startPageModal')" title="브라우저 시작페이지로 설정">
+      🏠 <span class="hide-sm">시작페이지로 설정</span>
     </button>
     <button id="backBtn" class="header-btn" style="display:none" onclick="go('portal')">
       ← <span class="hide-sm">메인으로</span>
@@ -30,15 +36,15 @@
 </header>
 
 <!-- ============ 즐겨찾기 추가 안내 모달 ============ -->
-<div id="addHomeModal" class="modal-overlay" onclick="if(event.target===this) closeAddToHome()">
+<div id="addHomeModal" class="modal-overlay" onclick="if(event.target===this) closeModal(this.id)">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title">⭐ 오산고 교직원 포털을 즐겨찾기에 추가</div>
-      <button class="modal-close" onclick="closeAddToHome()" aria-label="닫기">✕</button>
+      <button class="modal-close" onclick="closeModal('addHomeModal')" aria-label="닫기">✕</button>
     </div>
     <p class="modal-desc">사용하시는 기기·브라우저에 맞는 방법을 참고하세요.</p>
 
-    <div class="tabs" id="addHomeTabs">
+    <div class="tabs">
       <button class="tab active" data-tab="desktop">데스크톱</button>
       <button class="tab" data-tab="android">Android</button>
       <button class="tab" data-tab="ios">iPhone·iPad</button>
@@ -69,11 +75,63 @@
     <div class="url-box">
       <div class="url-label">포털 링크</div>
       <div class="url-row">
-        <input type="text" id="webAppUrlInput" readonly onclick="this.select()">
-        <button class="btn small" onclick="copyWebAppUrl()">📋 복사</button>
+        <input type="text" class="portal-url" readonly onclick="this.select()">
+        <button class="btn small" onclick="copyPortalUrl(this)">📋 복사</button>
       </div>
       <div class="url-hint">이 링크를 동료 선생님께 공유하셔도 됩니다. 구글 계정 로그인 여부와 관계없이 열립니다.</div>
     </div>
+  </div>
+</div>
+
+<!-- ============ 시작페이지 설정 안내 모달 ============ -->
+<div id="startPageModal" class="modal-overlay" onclick="if(event.target===this) closeModal(this.id)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">🏠 브라우저 시작페이지로 설정</div>
+      <button class="modal-close" onclick="closeModal('startPageModal')" aria-label="닫기">✕</button>
+    </div>
+    <p class="modal-desc">브라우저 보안 정책 때문에 웹 페이지가 시작페이지를 직접 바꿀 수는 없습니다. 아래 링크를 복사한 뒤, 사용하시는 브라우저에 맞는 방법으로 설정해 주세요.</p>
+
+    <div class="url-box" style="margin:0 0 18px">
+      <div class="url-label">① 포털 링크 복사</div>
+      <div class="url-row">
+        <input type="text" class="portal-url" readonly onclick="this.select()">
+        <button class="btn small" onclick="copyPortalUrl(this)">📋 복사</button>
+      </div>
+    </div>
+
+    <div class="url-label">② 브라우저에서 설정</div>
+    <div class="tabs">
+      <button class="tab active" data-tab="chrome">Chrome</button>
+      <button class="tab" data-tab="edge">Edge</button>
+      <button class="tab" data-tab="whale">웨일</button>
+    </div>
+
+    <div class="tab-panel active" data-panel="chrome">
+      <ol class="steps">
+        <li>오른쪽 위 <b>⋮ 메뉴 → 설정</b>을 엽니다.</li>
+        <li>왼쪽에서 <b>「시작 그룹」</b>을 누릅니다.</li>
+        <li><b>「특정 페이지 또는 페이지 모음 열기」</b>를 선택하고 <b>「새 페이지 추가」</b>를 누릅니다.</li>
+        <li>복사한 링크를 붙여넣고 <b>「추가」</b>를 누르면 끝입니다.</li>
+      </ol>
+    </div>
+    <div class="tab-panel" data-panel="edge">
+      <ol class="steps">
+        <li>오른쪽 위 <b>⋯ 메뉴 → 설정</b>을 엽니다.</li>
+        <li>왼쪽에서 <b>「시작, 홈 및 새 탭」</b>을 누릅니다.</li>
+        <li><b>「Edge가 시작되는 경우」</b>에서 <b>「다음 페이지 열기」</b>를 선택하고 <b>「새 페이지 추가」</b>를 누릅니다.</li>
+        <li>복사한 링크를 붙여넣고 <b>「추가」</b>를 누르면 끝입니다.</li>
+      </ol>
+    </div>
+    <div class="tab-panel" data-panel="whale">
+      <ol class="steps">
+        <li>오른쪽 위 <b>⋯ 메뉴 → 설정</b>을 엽니다.</li>
+        <li><b>「시작 그룹」</b> 항목을 찾습니다. (설정 화면 위쪽 검색창에 「시작」을 입력하면 빠릅니다.)</li>
+        <li><b>「특정 페이지 또는 페이지 모음 열기」</b>를 선택하고 <b>「새 페이지 추가」</b>를 누릅니다.</li>
+        <li>복사한 링크를 붙여넣고 <b>「추가」</b>를 누르면 끝입니다.</li>
+      </ol>
+    </div>
+    <div class="url-hint">홈(🏠) 버튼을 눌렀을 때도 포털이 열리게 하려면, 같은 설정 화면의 <b>「홈 버튼 표시」</b>에 링크를 넣어 주세요. 휴대폰에서는 즐겨찾기 추가 안내의 <b>「홈 화면에 추가」</b>를 이용하시면 됩니다.</div>
   </div>
 </div>
 
@@ -293,34 +351,42 @@
   }
 
   // ============================================================
-  // 즐겨찾기 모달
+  // 안내 모달 (즐겨찾기 추가 · 시작페이지 설정)
   // ============================================================
-  function openAddToHome() {
-    document.getElementById('webAppUrlInput').value = location.origin + location.pathname;
-    document.getElementById('addHomeModal').classList.add('show');
-    autoSelectTab();
+  const PORTAL_URL = location.origin + location.pathname;
+
+  function openModal(id) {
+    const m = document.getElementById(id);
+    m.querySelectorAll('.portal-url').forEach(el => { el.value = PORTAL_URL; });
+    m.classList.add('show');
+    switchTab(m, autoTab(id));
   }
-  function closeAddToHome() {
-    document.getElementById('addHomeModal').classList.remove('show');
+  function closeModal(id) {
+    const m = id ? document.getElementById(id) : null;
+    if (m) m.classList.remove('show');
+    else document.querySelectorAll('.modal-overlay.show').forEach(el => el.classList.remove('show'));
   }
-  function autoSelectTab() {
+  function autoTab(id) {
     const ua = navigator.userAgent || '';
-    let target = 'desktop';
-    if (/iPhone|iPad|iPod/i.test(ua)) target = 'ios';
-    else if (/Android/i.test(ua))     target = 'android';
-    switchTab(target);
+    if (id === 'startPageModal') {
+      if (/Whale/i.test(ua)) return 'whale';
+      if (/Edg\//i.test(ua)) return 'edge';
+      return 'chrome';
+    }
+    if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+    if (/Android/i.test(ua))         return 'android';
+    return 'desktop';
   }
-  function switchTab(name) {
-    document.querySelectorAll('#addHomeTabs .tab').forEach(t =>
+  function switchTab(modal, name) {
+    modal.querySelectorAll('.tab').forEach(t =>
       t.classList.toggle('active', t.dataset.tab === name));
-    document.querySelectorAll('.tab-panel').forEach(p =>
+    modal.querySelectorAll('.tab-panel').forEach(p =>
       p.classList.toggle('active', p.dataset.panel === name));
   }
-  function copyWebAppUrl() {
-    const input = document.getElementById('webAppUrlInput');
-    const url = input.value;
+  function copyPortalUrl(btn) {
+    const input = btn.parentElement.querySelector('input');
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(
+      navigator.clipboard.writeText(input.value).then(
         () => toast('링크가 복사되었습니다', 'ok'),
         () => fallbackCopy(input)
       );
@@ -479,11 +545,11 @@
   loadInit();
 
   document.addEventListener('click', function (e) {
-    const tab = e.target.closest && e.target.closest('#addHomeTabs .tab');
-    if (tab) switchTab(tab.dataset.tab);
+    const tab = e.target.closest && e.target.closest('.modal .tab');
+    if (tab) switchTab(tab.closest('.modal'), tab.dataset.tab);
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAddToHome();
+    if (e.key === 'Escape') closeModal();
   });
 </script>
 
