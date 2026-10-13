@@ -921,7 +921,7 @@
     async function load() {
       try {
         const d = await fetchJson(`${API_URL}?api=schedule`, 15000);
-        if (d && d.ok && Array.isArray(d.items)) return { source: '학교 캘린더 기준', items: d.items };
+        if (d && d.ok && Array.isArray(d.items)) return { source: '', items: d.items };
       } catch (_) { /* NEIS 직접 조회로 넘어갑니다 */ }
       const from = new Date();
       const to = new Date(Date.now() + 45 * 86400000);
