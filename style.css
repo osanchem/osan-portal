@@ -165,10 +165,11 @@ button { font-family: inherit; }
 /* ============ 오늘의 근무 요약 ============ */
 .today-duty {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
+@media (max-width: 980px) { .today-duty { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 720px) { .today-duty { grid-template-columns: 1fr; } }
 
 .duty-summary {
@@ -223,6 +224,12 @@ button { font-family: inherit; }
 }
 .duty-summary-empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
 .duty-stale { color: var(--muted-soft); font-size: 12px; margin-top: 2px; }
+.duty-next {
+  display: flex; align-items: baseline; gap: 12px;
+  border-top: 1px dashed var(--hairline); padding-top: 10px;
+}
+.next-list { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted); }
+.next-item b { font-weight: 600; color: var(--ink); }
 
 /* ============ 포털 액션 카드 ============ */
 .card-grid {

@@ -141,7 +141,7 @@
   <section id="view-portal" class="view">
     <div class="portal-hero">
       <h1>오늘, 오산고 교직원실</h1>
-      <p>중식·풋살장 지도 담당자 확인, 시설 보수 신청, 출결 확인서 작성을 한 곳에서 처리하세요.</p>
+      <p>중식·풋살장 지도와 자기주도학습 감독 담당자 확인, 시설 보수 신청, 출결 확인서 작성을 한 곳에서 처리하세요.</p>
       <div class="today-badge" id="todayBadge">오늘</div>
     </div>
 
@@ -161,6 +161,15 @@
           <div class="duty-summary-more">시트 열기 ↗</div>
         </div>
         <div class="duty-summary-body" id="summaryFutsal">
+          <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+        </div>
+      </div>
+      <div class="duty-summary" onclick="openSheet('selfstudy')">
+        <div class="duty-summary-head">
+          <div class="duty-summary-title"><span class="em">📚</span> 오늘의 자기주도학습 감독</div>
+          <div class="duty-summary-more">시트 열기 ↗</div>
+        </div>
+        <div class="duty-summary-body" id="summarySelf">
           <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
         </div>
       </div>
@@ -241,7 +250,7 @@
 
   // API가 응답하지 않을 때도 '시트 열기'가 동작하도록 두는 예비 링크
   const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/1Wa2Br6DfXIfRoo8LrwZ_tFxbgWFZDrF5PFjJdNgJdtE/edit';
-  let SHEET_URLS = { base: SHEET_BASE, lunch: SHEET_BASE, futsal: SHEET_BASE, repair: SHEET_BASE };
+  let SHEET_URLS = { base: SHEET_BASE, lunch: SHEET_BASE, futsal: SHEET_BASE, repair: SHEET_BASE, selfstudy: SHEET_BASE };
 
   const DEFAULT_PRIORITY = ['낮음', '보통', '높음', '긴급'];
   let META = { priorityList: DEFAULT_PRIORITY };
@@ -333,6 +342,7 @@
         const html = summaryErr(err);
         document.getElementById('summaryLunch').innerHTML  = html;
         document.getElementById('summaryFutsal').innerHTML = html;
+        document.getElementById('summarySelf').innerHTML   = html;
       }
     }
   }
@@ -424,6 +434,18 @@
     const note = stale ? '<div class="duty-stale"></div>' : '';
     document.getElementById('summaryLunch').innerHTML  = summaryHtml(all && all.lunch) + note;
     document.getElementById('summaryFutsal').innerHTML = summaryHtml(all && all.futsal) + note;
+    // 예전 형식으로 저장된 캐시에는 자기주도학습 감독 정보가 없으므로, 그때는 '불러오는 중' 표시를 그대로 둡니다.
+    if (all && all.selfstudy) {
+      document.getElementById('summarySelf').innerHTML = summaryHtml(all.selfstudy) + upcomingHtml(all.selfstudy) + note;
+    }
+  }
+  // 다음 감독 일정 (예: 10/15(목) 류정)
+  function upcomingHtml(r) {
+    if (!r || !r.ok || !r.upcoming || !r.upcoming.length) return '';
+    const items = r.upcoming.map(u =>
+      `<span class="next-item"><b>${escapeHtml(u.date)}(${escapeHtml(u.weekday)})</b> ${escapeHtml((u.names || []).join(', '))}</span>`
+    ).join('');
+    return `<div class="duty-next"><span class="zone-label">다음</span><div class="next-list">${items}</div></div>`;
   }
   function summaryHtml(r) {
     if (!r || !r.ok) {
