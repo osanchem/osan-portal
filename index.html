@@ -56,6 +56,18 @@
     .app-header-inner { flex-wrap: wrap; row-gap: 8px; }
     .quick-links { order: 10; flex-basis: 100%; gap: 6px; margin-left: 0; }
   }
+/* 하단 업데이트 내역: 기본은 접혀 있고 눌러서 펼칩니다 */
+.changelog { margin-top: 10px; font-size: 12px; color: var(--muted-soft, #929292); }
+.changelog summary { display: inline-block; cursor: pointer; list-style: none; padding: 3px 12px; border: 1px solid var(--hairline-soft, #ebebeb); border-radius: var(--radius-pill, 999px); color: var(--muted, #6a6a6a); user-select: none; }
+.changelog summary::-webkit-details-marker { display: none; }
+.changelog summary::after { content: ' ▾'; }
+.changelog[open] summary::after { content: ' ▴'; }
+.changelog summary:hover { border-color: var(--ink, #222); color: var(--ink, #222); }
+.changelog-body { max-width: 560px; margin: 12px auto 0; text-align: left; color: var(--body, #3f3f3f); line-height: 1.6; }
+.changelog-date { font-weight: 700; color: var(--ink, #222); margin-top: 10px; }
+.changelog-date:first-child { margin-top: 0; }
+.changelog-body ul { margin: 4px 0 0; padding-left: 18px; }
+.changelog-body li { margin: 2px 0; }
 </style>
 </head>
 <body>
@@ -332,7 +344,31 @@
 
 <footer class="staff-notice" style="max-width:1280px; margin:0 auto; padding:20px 24px 32px; border-top:1px solid var(--hairline-soft, #ebebeb); text-align:center; font-size:13px; color:var(--muted, #6a6a6a);">
   교직원전용페이지 입니다. 외부 및 학생에게 노출되지 않도록 주의 부탁드립니다.
-  <div style="margin-top:6px; font-size:12px; color:var(--muted-soft, #929292);">만든이: 정지수(내선508)</div>
+  <div style="margin-top:6px; font-size:12px; color:var(--muted-soft, #929292);">만든이 및 오류제보: 정지수(내선508)</div>
+  <details class="changelog">
+    <summary>업데이트 내역</summary>
+    <div class="changelog-body">
+      <div class="changelog-date">2026. 10. 14.</div>
+      <ul>
+        <li>학사일정 카드 추가 (학교 구글 캘린더 연동, 포털 맨 아래)</li>
+        <li>시간표 변동: 요일 교환일 안내 표시, 변경 전 수업은 흐리게·변경 후 수업은 파란색으로 구분</li>
+        <li>하단에 만든이 및 오류제보 안내, 업데이트 내역 추가</li>
+      </ul>
+      <div class="changelog-date">2026. 10. 13.</div>
+      <ul>
+        <li>오늘의 시간표 변동 카드 추가 (컴시간 연동, 포털 맨 위, 매일 오전 8시 확인)</li>
+        <li>'컴시간 열기'를 누르면 학교 코드가 자동으로 복사되도록 개선</li>
+        <li>오늘의 점심 카드 추가 (나이스 급식 정보)</li>
+        <li>오늘의 자기주도학습 감독 카드 추가</li>
+        <li>중식·풋살장지도 카드에 다음 일정 2건 표시</li>
+        <li>담당 교사 이름의 마지막 글자 가림 처리, 하단에 교직원 전용 안내 문구 추가</li>
+        <li>상단에 학교 홈페이지·리로스쿨 바로가기 추가</li>
+        <li>출결확인서 작성기(담임선생님용) 메뉴 추가, 미리보기 화면의 인쇄·한글 저장 버튼 수정</li>
+        <li>업무포털 바로가기, 시작페이지 설정 안내 추가</li>
+        <li>GitHub Pages로 이전하여 접속 속도와 안정성 개선</li>
+      </ul>
+    </div>
+  </details>
 </footer>
 
 <div id="toast" class="toast"></div>
