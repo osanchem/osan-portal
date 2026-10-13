@@ -432,17 +432,18 @@
   // ============================================================
   function renderPortalSummary(all, stale) {
     const note = stale ? '<div class="duty-stale"></div>' : '';
-    document.getElementById('summaryLunch').innerHTML  = summaryHtml(all && all.lunch) + note;
-    document.getElementById('summaryFutsal').innerHTML = summaryHtml(all && all.futsal) + note;
+    document.getElementById('summaryLunch').innerHTML  = summaryHtml(all && all.lunch) + upcomingHtml(all && all.lunch) + note;
+    document.getElementById('summaryFutsal').innerHTML = summaryHtml(all && all.futsal) + upcomingHtml(all && all.futsal) + note;
     // 예전 형식으로 저장된 캐시에는 자기주도학습 감독 정보가 없으므로, 그때는 '불러오는 중' 표시를 그대로 둡니다.
     if (all && all.selfstudy) {
       document.getElementById('summarySelf').innerHTML = summaryHtml(all.selfstudy) + upcomingHtml(all.selfstudy) + note;
     }
   }
-  // 다음 감독 일정 (예: 10/15(목) 류정)
+  // 다음 일정 (예: 10/15(목) 류정) — 가까운 날짜부터 UPCOMING_COUNT건만 표시
+  const UPCOMING_COUNT = 2;
   function upcomingHtml(r) {
     if (!r || !r.ok || !r.upcoming || !r.upcoming.length) return '';
-    const items = r.upcoming.map(u =>
+    const items = r.upcoming.slice(0, UPCOMING_COUNT).map(u =>
       `<span class="next-item"><b>${escapeHtml(u.date)}(${escapeHtml(u.weekday)})</b> ${escapeHtml((u.names || []).join(', '))}</span>`
     ).join('');
     return `<div class="duty-next"><span class="zone-label">다음</span><div class="next-list">${items}</div></div>`;
