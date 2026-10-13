@@ -30,6 +30,10 @@
   .tt-more { align-self: flex-start; margin-top: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-pill); padding: 6px 14px; font: inherit; font-size: 13px; color: var(--ink); cursor: pointer; }
   .tt-more:hover { border-color: var(--ink); }
   .tt-foot { margin-top: 12px; }
+  /* 오늘의 점심 (NEIS 급식) */
+  .lunch-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lunch-dish { background: var(--surface-soft); border: 1px solid var(--hairline-soft); border-radius: var(--radius-pill); padding: 7px 14px; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .lunch-cal { font-size: 13px; color: var(--muted); font-weight: 500; }
 </style>
 </head>
 <body>
@@ -175,6 +179,17 @@
       </div>
       <input type="search" id="ttFilter" class="tt-filter" placeholder="선생님 이름으로 찾기 (예: 홍길동)" autocomplete="off" aria-label="선생님 이름으로 시간표 변동 찾기">
       <div class="duty-summary-body" id="ttBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
+    </div>
+
+    <!-- 오늘의 점심: Apps Script(?api=lunch, NEIS 인증키 사용) → 실패하면 NEIS 직접 조회 -->
+    <div class="duty-summary tt-card" id="lunchCard">
+      <div class="duty-summary-head">
+        <div class="duty-summary-title"><span class="em">🍱</span> 오늘의 점심</div>
+        <div class="lunch-cal" id="lunchCal"></div>
+      </div>
+      <div class="duty-summary-body" id="lunchBody">
         <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
       </div>
     </div>
@@ -725,6 +740,85 @@
     };
 
     loadTimetable();
+  })();
+</script>
+
+<script>
+  // ============================================================
+  // 오늘의 점심 (NEIS 급식식단정보, 오산고 B10 / 7010220)
+  // 1순위: Apps Script(?api=lunch) — 인증키는 Apps Script에만 보관합니다.
+  // 2순위: 인증키 없이 NEIS 직접 조회(최대 5건) — Apps Script가 준비되지 않았을 때 대신 사용합니다.
+  // ============================================================
+  (function () {
+    const NEIS_URL = 'https://open.neis.go.kr/hub/mealServiceDietInfo';
+    const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+
+    function ymd(d) {
+      return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+    }
+    function labelOf(s) {
+      const d = new Date(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8));
+      return `${d.getMonth() + 1}/${d.getDate()}(${WEEK[d.getDay()]})`;
+    }
+    // '순대국밥 (2.5.6)' → '순대국밥' : 알레르기 번호와 끝의 기호를 지웁니다.
+    function dishesOf(row) {
+      return String(row.DDISH_NM || '')
+        .split(/<br\s*\/?>/i)
+        .map(s => s.replace(/\([\d.\s]*\)/g, '').replace(/[\/.*#\s]+$/, '').trim())
+        .filter(Boolean);
+    }
+
+    async function fetchJson(url, ms) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: ctrl.signal });
+        if (!res.ok) throw new Error(`서버 응답 오류 (${res.status})`);
+        return await res.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    async function loadRows() {
+      try {
+        const d = await fetchJson(`${API_URL}?api=lunch`, 15000);
+        if (d && d.ok && Array.isArray(d.rows)) return d.rows;
+      } catch (_) { /* NEIS 직접 조회로 넘어갑니다 */ }
+      const from = new Date();
+      const to = new Date(Date.now() + 7 * 86400000);
+      const q = `?Type=json&pIndex=1&pSize=5&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7010220&MMEAL_SC_CODE=2` +
+        `&MLSV_FROM_YMD=${ymd(from)}&MLSV_TO_YMD=${ymd(to)}`;
+      const d = await fetchJson(NEIS_URL + q, 15000);
+      const block = d && d.mealServiceDietInfo;
+      return block && block[1] && block[1].row ? block[1].row : [];
+    }
+
+    function render(rows) {
+      const body = document.getElementById('lunchBody');
+      const calEl = document.getElementById('lunchCal');
+      const todayKey = ymd(new Date());
+      const sorted = rows.slice().sort((a, b) => String(a.MLSV_YMD).localeCompare(String(b.MLSV_YMD)));
+      const today = sorted.find(r => r.MLSV_YMD === todayKey);
+      const next = sorted.find(r => r.MLSV_YMD > todayKey);
+
+      calEl.textContent = today && today.CAL_INFO ? today.CAL_INFO : '';
+      let html = today
+        ? `<div class="lunch-list">${dishesOf(today).map(n => `<span class="lunch-dish">${escapeHtml(n)}</span>`).join('')}</div>`
+        : '<div class="duty-summary-empty">오늘은 급식 정보가 없습니다.</div>';
+      if (next) {
+        html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
+          `<div class="next-list"><span class="next-item"><b>${escapeHtml(labelOf(next.MLSV_YMD))}</b> ` +
+          `${escapeHtml(dishesOf(next).slice(0, 4).join(', '))}</span></div></div>`;
+      }
+      body.innerHTML = html;
+    }
+
+    loadRows()
+      .then(render)
+      .catch(err => {
+        document.getElementById('lunchBody').innerHTML =
+          `<div class="duty-summary-empty">⚠ ${escapeHtml(errMsg(err))}</div>`;
+      });
   })();
 </script>
 
