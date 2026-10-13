@@ -279,6 +279,8 @@ table.sg td.off select{visibility:hidden}
 .adate{position:absolute;left:0;top:255.9mm;width:210mm;text-align:center;font-size:14pt;line-height:1;white-space:pre}
 .aschool{position:absolute;left:0;top:263.6mm;width:205mm;text-align:center;font-size:20pt;font-weight:700;line-height:1;letter-spacing:0.1em}
 
+[hidden]{display:none !important}
+
 @media print{
   @page{size:A4;margin:0}
   body{background:#fff}
@@ -454,8 +456,8 @@ table.sg td.off select{visibility:hidden}
     </div>
     <div class="count" id="count"></div>
     <div class="count" id="countA" hidden></div>
-    <button class="btn" id="athPrint" type="button" hidden>인쇄</button>
-    <button class="btn" id="athSave2" type="button" hidden>한글 파일 저장</button>
+    <button class="btn" id="athPrint" type="button">인쇄</button>
+    <button class="btn" id="athSave2" type="button">한글 파일 저장</button>
     <button class="btn" id="backBtn" type="button">표로 돌아가기</button>
   </div>
   <div id="attPane">
@@ -3270,7 +3272,6 @@ function setPrevMode(m){
   $("attPane").hidden = m !== "att"; $("athPane").hidden = m !== "ath";
   $("count").hidden = m !== "att"; $("countA").hidden = m !== "ath";
   $("pmAtt").classList.toggle("on", m === "att"); $("pmAth").classList.toggle("on", m === "ath");
-  $("athPrint").hidden = $("athSave2").hidden = m !== "ath";
   $("backBtn").textContent = m === "ath" ? "학생선수 표로 돌아가기" : "표로 돌아가기";
   if(!$("prevView").hidden) fitSheets();
 }
@@ -3294,9 +3295,11 @@ function previewAth(){ renderAthSheets(); setPrevMode("ath"); show("prev"); }
 $("aPrev").addEventListener("click", previewAth);
 $("pmAth").addEventListener("click", () => { renderAthSheets(); setPrevMode("ath"); });
 $("pmAtt").addEventListener("click", () => { apply(); if(partial) renderSheets(); setPrevMode("att"); });
-$("athSave2").addEventListener("click", exportAth);
+/* 미리보기의 인쇄·한글 파일 저장: 지금 보고 있는 서식(출결 확인서/학생선수 신고서)을 대상으로 한다 */
+$("athSave2").addEventListener("click", () => { if(prevMode === "ath") exportAth(); else exportDoc("hwpx"); });
 $("athPrint").addEventListener("click", () => {
-  if(!renderAthSheets()) return;
+  if(prevMode !== "ath"){ doPrint(false); return; }
+  if(!renderAthSheets()){ toast("인쇄할 학생선수 신고서가 없습니다. 학생선수 신고서 탭에서 먼저 내용을 불러와 주세요.", true); return; }
   setPrevMode("ath");
   setTimeout(() => { fitSheets(); window.print(); }, 60);
 });
