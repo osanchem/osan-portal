@@ -198,17 +198,6 @@
       </div>
     </div>
 
-    <!-- 오늘의 점심: Apps Script(?api=lunch, NEIS 인증키 사용) → 실패하면 NEIS 직접 조회 -->
-    <div class="duty-summary tt-card" id="lunchCard">
-      <div class="duty-summary-head">
-        <div class="duty-summary-title"><span class="em">🍱</span> 오늘의 점심</div>
-        <div class="lunch-cal" id="lunchCal"></div>
-      </div>
-      <div class="duty-summary-body" id="lunchBody">
-        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
-      </div>
-    </div>
-
     <div class="today-duty">
       <div class="duty-summary" onclick="openSheet('lunch')">
         <div class="duty-summary-head">
@@ -236,6 +225,17 @@
         <div class="duty-summary-body" id="summarySelf">
           <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
         </div>
+      </div>
+    </div>
+
+    <!-- 오늘의 점심: Apps Script(?api=lunch, NEIS 인증키 사용) → 실패하면 NEIS 직접 조회 -->
+    <div class="duty-summary tt-card" id="lunchCard">
+      <div class="duty-summary-head">
+        <div class="duty-summary-title"><span class="em">🍱</span> 오늘의 점심</div>
+        <div class="lunch-cal" id="lunchCal"></div>
+      </div>
+      <div class="duty-summary-body" id="lunchBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
       </div>
     </div>
 
