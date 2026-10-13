@@ -218,8 +218,8 @@ button { font-family: inherit; }
   background: var(--surface-soft);
   border: 1px solid var(--hairline-soft);
   border-radius: var(--radius-pill);
-  padding: 6px 14px;
-  font-size: 14px; font-weight: 500; color: var(--ink);
+  padding: 7px 16px;
+  font-size: 16px; font-weight: 600; color: var(--ink);
   display: inline-flex; align-items: center;
 }
 .duty-summary-empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
@@ -228,8 +228,9 @@ button { font-family: inherit; }
   display: flex; align-items: baseline; gap: 12px;
   border-top: 1px dashed var(--hairline); padding-top: 10px;
 }
-.next-list { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted); }
-.next-item b { font-weight: 600; color: var(--ink); }
+.next-list { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--muted); }
+.next-item { color: var(--ink); font-weight: 500; }
+.next-item b { font-weight: 600; color: var(--muted); margin-right: 2px; }
 
 /* ============ 포털 액션 카드 ============ */
 .card-grid {
