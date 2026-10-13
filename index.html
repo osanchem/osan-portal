@@ -22,10 +22,10 @@
   .tt-period { font-weight: 700; color: var(--ink); white-space: nowrap; }
   .tt-class { font-weight: 600; color: var(--muted); white-space: nowrap; min-width: 30px; }
   .tt-change { color: var(--body); min-width: 0; overflow-wrap: anywhere; }
-  .tt-before { color: var(--muted); text-decoration: line-through; }
+  .tt-before { color: var(--muted-soft); }
   .tt-added { color: var(--muted); font-size: 12px; font-weight: 600; }
   .tt-arrow { color: var(--muted-soft); margin: 0 6px; }
-  .tt-after { font-weight: 600; color: var(--ink); }
+  .tt-after { font-weight: 700; color: #1a6fd6; }
   .tt-none { color: var(--primary-error); font-weight: 600; text-decoration: none; }
   .tt-more { align-self: flex-start; margin-top: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-pill); padding: 6px 14px; font: inherit; font-size: 13px; color: var(--ink); cursor: pointer; }
   .tt-more:hover { border-color: var(--ink); }
@@ -36,6 +36,16 @@
   .lunch-list { display: flex; flex-wrap: wrap; gap: 8px; }
   .lunch-dish { background: var(--surface-soft); border: 1px solid var(--hairline-soft); border-radius: var(--radius-pill); padding: 7px 14px; font-size: 15px; font-weight: 600; color: var(--ink); }
   .lunch-cal { font-size: 13px; color: var(--muted); font-weight: 500; }
+  /* 학사일정 (NEIS) */
+  .sched-card { margin-top: 24px; margin-bottom: 0; }
+  .sched-list { border-top: 1px dashed var(--hairline); margin-top: 12px; padding-top: 4px; }
+  .sched-row { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--hairline-soft); }
+  .sched-row:last-child { border-bottom: none; }
+  .sched-date { min-width: 72px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .sched-name { flex: 1; min-width: 0; color: var(--body); overflow-wrap: anywhere; }
+  .sched-tag { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--muted); font-size: 11px; font-weight: 700; }
+  .sched-tag.off { background: #fdecea; color: var(--primary-error); }
+  .sched-dday { font-size: 12px; color: var(--muted-soft); white-space: nowrap; }
   /* 상단 바로가기 링크 묶음: 휴대폰 화면에서는 두 번째 줄로 내립니다 */
   .quick-links { display: flex; align-items: center; gap: 8px; margin-left: 4px; }
   .quick-links .eduptl-link { margin-left: 0; }
@@ -256,6 +266,18 @@
         <div class="card-cta">작성하기 →</div>
       </a>
     </div>
+
+    <!-- 학사일정: Apps Script(?api=schedule, NEIS 인증키 사용) → 실패하면 NEIS 직접 조회(5건) -->
+    <div class="duty-summary tt-card sched-card" id="schedCard">
+      <div class="duty-summary-head">
+        <div class="duty-summary-title"><span class="em">📅</span> 학사일정</div>
+        <div class="lunch-cal">나이스 기준</div>
+      </div>
+      <div class="duty-summary-body" id="schedBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ============ 2. 보수신청 ============ -->
@@ -841,6 +863,99 @@
       .then(render)
       .catch(err => {
         document.getElementById('lunchBody').innerHTML =
+          `<div class="duty-summary-empty">⚠ ${escapeHtml(errMsg(err))}</div>`;
+      });
+  })();
+</script>
+
+<script>
+  // ============================================================
+  // 학사일정 (NEIS 학사일정, 오산고 B10 / 7010220)
+  // 1순위: Apps Script(?api=schedule) — 인증키는 Apps Script에만 보관합니다.
+  // 2순위: 인증키 없이 NEIS 직접 조회(최대 5건)
+  // ============================================================
+  (function () {
+    const NEIS_URL = 'https://open.neis.go.kr/hub/SchoolSchedule';
+    const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+    const SCHED_SHOW = 6;                       // 다가오는 일정 표시 건수
+    const SKIP = /^토요휴업일$/;                 // 매주 반복되는 일정은 빼고 보여 줍니다
+
+    function ymd(d) {
+      return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+    }
+    function toDate(s) { return new Date(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8)); }
+    function labelOf(s) {
+      const d = toDate(s);
+      return `${d.getMonth() + 1}/${d.getDate()}(${WEEK[d.getDay()]})`;
+    }
+    // 1·2·3학년 모두 해당하면 표시하지 않고, 일부 학년만 해당하면 '1·2학년'처럼 표시합니다.
+    function gradeTag(r) {
+      const g = [r.ONE_GRADE_EVENT_YN, r.TW_GRADE_EVENT_YN, r.THREE_GRADE_EVENT_YN]
+        .map((v, i) => (v === 'Y' ? i + 1 : 0)).filter(Boolean);
+      return g.length && g.length < 3 ? `<span class="sched-tag">${g.join('·')}학년</span>` : '';
+    }
+    function offTag(r) {
+      const v = String(r.SBTR_DD_SC_NM || '');
+      return v && v !== '해당없음' ? `<span class="sched-tag off">${escapeHtml(v)}</span>` : '';
+    }
+
+    async function fetchJson(url, ms) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: ctrl.signal });
+        if (!res.ok) throw new Error(`서버 응답 오류 (${res.status})`);
+        return await res.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    async function loadRows() {
+      try {
+        const d = await fetchJson(`${API_URL}?api=schedule`, 15000);
+        if (d && d.ok && Array.isArray(d.rows)) return d.rows;
+      } catch (_) { /* NEIS 직접 조회로 넘어갑니다 */ }
+      const from = new Date();
+      const to = new Date(Date.now() + 45 * 86400000);
+      const q = `?Type=json&pIndex=1&pSize=5&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7010220` +
+        `&AA_FROM_YMD=${ymd(from)}&AA_TO_YMD=${ymd(to)}`;
+      const d = await fetchJson(NEIS_URL + q, 15000);
+      const block = d && d.SchoolSchedule;
+      return block && block[1] && block[1].row ? block[1].row : [];
+    }
+
+    function render(rows) {
+      const body = document.getElementById('schedBody');
+      const todayKey = ymd(new Date());
+      const seen = {};
+      const list = rows
+        .filter(r => r.EVENT_NM && !SKIP.test(String(r.EVENT_NM).trim()))
+        .filter(r => { const k = r.AA_YMD + r.EVENT_NM; if (seen[k]) return false; seen[k] = true; return true; })
+        .sort((a, b) => String(a.AA_YMD).localeCompare(String(b.AA_YMD)));
+      const today = list.filter(r => r.AA_YMD === todayKey);
+      const upcoming = list.filter(r => r.AA_YMD > todayKey).slice(0, SCHED_SHOW);
+
+      let html = today.length
+        ? `<div class="zone-group"><span class="zone-label">오늘</span><div class="lunch-list">` +
+          today.map(r => `<span class="lunch-dish">${escapeHtml(r.EVENT_NM)}${gradeTag(r)}${offTag(r)}</span>`).join('') +
+          `</div></div>`
+        : '<div class="duty-summary-empty">오늘 등록된 학사일정이 없습니다.</div>';
+      if (upcoming.length) {
+        const base = toDate(todayKey).getTime();
+        html += '<div class="sched-list">' + upcoming.map(r => {
+          const dday = Math.round((toDate(r.AA_YMD).getTime() - base) / 86400000);
+          return `<div class="sched-row"><span class="sched-date">${escapeHtml(labelOf(r.AA_YMD))}</span>` +
+            `<span class="sched-name">${escapeHtml(r.EVENT_NM)}${gradeTag(r)}${offTag(r)}</span>` +
+            `<span class="sched-dday">D-${dday}</span></div>`;
+        }).join('') + '</div>';
+      }
+      body.innerHTML = html;
+    }
+
+    loadRows()
+      .then(render)
+      .catch(err => {
+        document.getElementById('schedBody').innerHTML =
           `<div class="duty-summary-empty">⚠ ${escapeHtml(errMsg(err))}</div>`;
       });
   })();
