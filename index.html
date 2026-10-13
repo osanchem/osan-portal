@@ -201,7 +201,7 @@
     <div class="duty-summary tt-card" id="ttCard">
       <div class="duty-summary-head">
         <div class="duty-summary-title"><span class="em">🗓️</span> 오늘의 시간표 변동 <span class="tt-count" id="ttCount"></span></div>
-        <a class="duty-summary-more" href="http://xn--s39aqy283b66bj2x.kr/" target="_blank" rel="noopener">컴시간 열기 ↗</a>
+        <a class="duty-summary-more" href="http://xn--s39aqy283b66bj2x.kr/" target="_blank" rel="noopener" onclick="ttCopySchoolCode()" title="학교 코드 87645를 복사한 뒤 컴시간을 엽니다">컴시간 열기 (코드 87645) ↗</a>
       </div>
       <input type="search" id="ttFilter" class="tt-filter" placeholder="선생님 이름으로 찾기 (예: 홍길동)" autocomplete="off" aria-label="선생님 이름으로 시간표 변동 찾기">
       <div class="duty-summary-body" id="ttBody">
@@ -679,7 +679,7 @@
         html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
           `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> 변동 ${n}건</span></div></div>`;
       }
-      html += `<div class="duty-stale">컴시간 기준 · ${escapeHtml(r.updatedAt || '')} 확인 · 15분마다 새로 확인합니다</div>`;
+      html += `<div class="duty-stale">컴시간 기준 · 오늘 ${escapeHtml(r.updatedAt || '')} 확인 · 매일 오전 8시에 확인합니다</div>`;
       body.innerHTML = html;
     }
 
@@ -709,6 +709,20 @@
     document.getElementById('ttBody').addEventListener('click', (e) => {
       if (e.target.closest('#ttMore')) { ttExpanded = !ttExpanded; ttRender(); }
     });
+
+    // 컴시간 열기: 컴시간 화면에 바로 붙여 넣을 수 있도록 학교 코드를 클립보드에 복사합니다.
+    window.ttCopySchoolCode = function () {
+      const code = '87645';
+      const ask = () => toast(`컴시간에서 학교 코드 ${code}를 입력해 주세요.`, 'ok');
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(code).then(
+            () => toast(`학교 코드 ${code}를 복사했습니다. 컴시간에서 붙여 넣어 주세요.`, 'ok'), ask);
+          return;
+        }
+      } catch (_) {}
+      ask();
+    };
 
     loadTimetable();
   })();
