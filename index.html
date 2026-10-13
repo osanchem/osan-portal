@@ -167,6 +167,18 @@
       <div class="today-badge" id="todayBadge">오늘</div>
     </div>
 
+    <!-- 오늘의 시간표 변동: Apps Script(?api=timetable)가 컴시간에서 받아 온 결과를 표시 -->
+    <div class="duty-summary tt-card" id="ttCard">
+      <div class="duty-summary-head">
+        <div class="duty-summary-title"><span class="em">🗓️</span> 오늘의 시간표 변동 <span class="tt-count" id="ttCount"></span></div>
+        <a class="duty-summary-more" href="http://xn--s39aqy283b66bj2x.kr/" target="_blank" rel="noopener" onclick="ttCopySchoolCode()" title="학교 코드 87645를 복사한 뒤 컴시간을 엽니다">컴시간 열기 (코드 87645) ↗</a>
+      </div>
+      <input type="search" id="ttFilter" class="tt-filter" placeholder="선생님 이름으로 찾기 (예: 홍길동)" autocomplete="off" aria-label="선생님 이름으로 시간표 변동 찾기">
+      <div class="duty-summary-body" id="ttBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
+    </div>
+
     <div class="today-duty">
       <div class="duty-summary" onclick="openSheet('lunch')">
         <div class="duty-summary-head">
@@ -194,18 +206,6 @@
         <div class="duty-summary-body" id="summarySelf">
           <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
         </div>
-      </div>
-    </div>
-
-    <!-- 오늘의 시간표 변동: Apps Script(?api=timetable)가 컴시간에서 받아 온 결과를 표시 -->
-    <div class="duty-summary tt-card" id="ttCard">
-      <div class="duty-summary-head">
-        <div class="duty-summary-title"><span class="em">🗓️</span> 오늘의 시간표 변동 <span class="tt-count" id="ttCount"></span></div>
-        <a class="duty-summary-more" href="http://xn--s39aqy283b66bj2x.kr/" target="_blank" rel="noopener" onclick="ttCopySchoolCode()" title="학교 코드 87645를 복사한 뒤 컴시간을 엽니다">컴시간 열기 (코드 87645) ↗</a>
-      </div>
-      <input type="search" id="ttFilter" class="tt-filter" placeholder="선생님 이름으로 찾기 (예: 홍길동)" autocomplete="off" aria-label="선생님 이름으로 시간표 변동 찾기">
-      <div class="duty-summary-body" id="ttBody">
-        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
       </div>
     </div>
 
