@@ -30,6 +30,8 @@
   .tt-more { align-self: flex-start; margin-top: 10px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-pill); padding: 6px 14px; font: inherit; font-size: 13px; color: var(--ink); cursor: pointer; }
   .tt-more:hover { border-color: var(--ink); }
   .tt-foot { margin-top: 12px; }
+  .tt-swap { background: #fff7e0; border: 1px solid #f3d98b; border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .tt-swap-sub { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--body); }
   /* 오늘의 점심 (NEIS 급식) */
   .lunch-list { display: flex; flex-wrap: wrap; gap: 8px; }
   .lunch-dish { background: var(--surface-soft); border: 1px solid var(--hairline-soft); border-radius: var(--radius-pill); padding: 7px 14px; font-size: 15px; font-weight: 600; color: var(--ink); }
@@ -690,16 +692,23 @@
       const q = (filterEl.value || '').trim();
       const all = r.today.changes || [];
       const list = all.filter(c => ttMatch(c, q));
-      countEl.textContent = all.length ? all.length + '건' : '';
+      // 요일 교환일: Apps Script가 교환된 요일(swapLabel)을 알려 주면 안내를 먼저 띄우고,
+      // 목록에는 교환된 요일 시간표와 다른 수업만 보여 줍니다.
+      const swap = r.today.swapLabel;
+      countEl.textContent = swap ? '요일 교환' : (all.length ? all.length + '건' : '');
 
-      let html;
+      let html = '';
+      if (swap) {
+        html += `<div class="tt-swap">🔄 오늘은 ${escapeHtml(swap)} 시간표로 운영합니다.` +
+          `<span class="tt-swap-sub">${all.length ? `${escapeHtml(swap)} 시간표와 다른 수업 ${all.length}건` : `${escapeHtml(swap)} 시간표와 다른 수업은 없습니다.`}</span></div>`;
+      }
       if (!all.length) {
-        html = '<div class="duty-summary-empty">오늘은 시간표 변동이 없습니다.</div>';
+        if (!swap) html += '<div class="duty-summary-empty">오늘은 시간표 변동이 없습니다.</div>';
       } else if (!list.length) {
-        html = `<div class="duty-summary-empty">‘${escapeHtml(q)}’ 선생님의 오늘 시간표 변동은 없습니다.</div>`;
+        html += `<div class="duty-summary-empty">‘${escapeHtml(q)}’ 선생님의 오늘 시간표 변동은 없습니다.</div>`;
       } else {
         const shown = ttExpanded ? list : list.slice(0, TT_SHOW);
-        html = `<div class="tt-list">${shown.map(ttRow).join('')}</div>`;
+        html += `<div class="tt-list">${shown.map(ttRow).join('')}</div>`;
         if (list.length > TT_SHOW) {
           html += `<button type="button" class="tt-more" id="ttMore">${ttExpanded ? '접기' : (list.length - TT_SHOW) + '건 더 보기'}</button>`;
         }
@@ -707,7 +716,7 @@
       if (r.next) {
         const n = (r.next.changes || []).filter(c => ttMatch(c, q)).length;
         html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
-          `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> 변동 ${n}건</span></div></div>`;
+          `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> ${r.next.swapLabel ? escapeHtml(r.next.swapLabel) + ' 시간표로 운영 · 그 밖의 변동 ' + n + '건' : '변동 ' + n + '건'}</span></div></div>`;
       }
       html += `<div class="duty-stale">컴시간 기준 · 오늘 ${escapeHtml(r.updatedAt || '')} 확인 · 매일 오전 8시에 확인합니다</div>`;
       body.innerHTML = html;
