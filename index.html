@@ -239,6 +239,10 @@
 
 </div>
 
+<footer class="staff-notice" style="max-width:1280px; margin:0 auto; padding:20px 24px 32px; border-top:1px solid var(--hairline-soft, #ebebeb); text-align:center; font-size:13px; color:var(--muted, #6a6a6a);">
+  교직원전용페이지 입니다. 외부 및 학생에게 노출되지 않도록 주의 부탁드립니다.
+</footer>
+
 <div id="toast" class="toast"></div>
 
 <script>
@@ -444,7 +448,7 @@
   function upcomingHtml(r) {
     if (!r || !r.ok || !r.upcoming || !r.upcoming.length) return '';
     const items = r.upcoming.slice(0, UPCOMING_COUNT).map(u =>
-      `<span class="next-item"><b>${escapeHtml(u.date)}(${escapeHtml(u.weekday)})</b> ${escapeHtml((u.names || []).join(', '))}</span>`
+      `<span class="next-item"><b>${escapeHtml(u.date)}(${escapeHtml(u.weekday)})</b> ${escapeHtml((u.names || []).map(maskName).join(', '))}</span>`
     ).join('');
     return `<div class="duty-next"><span class="zone-label">다음</span><div class="next-list">${items}</div></div>`;
   }
@@ -466,7 +470,7 @@
       <div class="zone-group">
         ${z ? `<span class="zone-label">${escapeHtml(z)}</span>` : ''}
         <div class="zone-names">
-          ${groups[z].map(n => `<span class="duty-chip">${escapeHtml(n)}</span>`).join('')}
+          ${groups[z].map(n => `<span class="duty-chip">${escapeHtml(maskName(n))}</span>`).join('')}
         </div>
       </div>
     `).join('');
@@ -538,6 +542,13 @@
   // ============================================================
   // 유틸
   // ============================================================
+  // 개인정보 보호: 화면에 표시하는 이름의 마지막 글자를 'O'로 가립니다 (예: 홍길동 → 홍길O)
+  function maskName(name) {
+    const chars = Array.from(String(name || '').trim());
+    if (chars.length < 2) return chars.join('');
+    chars[chars.length - 1] = 'O';
+    return chars.join('');
+  }
   function escapeHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
