@@ -348,6 +348,10 @@
   <details class="changelog">
     <summary>업데이트 내역</summary>
     <div class="changelog-body">
+      <div class="changelog-date">2026. 10. 15.</div>
+      <ul>
+        <li>시간표 변동 확인을 매일 오전 7:30, 8:30 두 번으로 늘리고, 마지막으로 확인한 시각을 '최종 확인'으로 표시</li>
+      </ul>
       <div class="changelog-date">2026. 10. 14.</div>
       <ul>
         <li>학사일정 카드 추가 (학교 구글 캘린더 연동, 포털 맨 아래)</li>
@@ -780,7 +784,7 @@
         html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
           `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> ${r.next.swapLabel ? escapeHtml(r.next.swapLabel) + ' 시간표로 운영 · 그 밖의 변동 ' + n + '건' : '변동 ' + n + '건'}</span></div></div>`;
       }
-      html += `<div class="duty-stale">컴시간 기준 · 오늘 ${escapeHtml(r.updatedAt || '')} 확인 · 매일 오전 8시에 확인합니다</div>`;
+      html += `<div class="duty-stale">컴시간 기준 · 최종 확인 오늘 ${escapeHtml(r.updatedAt || '')} (매일 07:30·08:30 확인)</div>`;
       body.innerHTML = html;
     }
 
