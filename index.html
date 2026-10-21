@@ -68,6 +68,28 @@
 .changelog-date:first-child { margin-top: 0; }
 .changelog-body ul { margin: 4px 0 0; padding-left: 18px; }
 .changelog-body li { margin: 2px 0; }
+  /* 부서별 공지사항: Apps Script(?api=notices) → '오산고 포털 부서별 공지사항' 시트 */
+  .notice-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .notice-filter:empty { display: none; }
+  .notice-chip { border: 1px solid var(--hairline); background: var(--canvas); color: var(--body); border-radius: var(--radius-pill); padding: 5px 12px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .notice-chip:hover { border-color: var(--ink); }
+  .notice-chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .notice-chip .n { font-weight: 500; opacity: .7; margin-left: 4px; }
+  .notice-list { display: flex; flex-direction: column; gap: 8px; }
+  .notice-item { background: var(--surface-soft); border-radius: var(--radius-sm); border-left: 3px solid transparent; }
+  .notice-item.important { background: #fff0f3; border-left-color: var(--primary); }
+  .notice-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 10px 12px; font-size: 14px; min-width: 0; list-style: none; }
+  summary.notice-head { cursor: pointer; }
+  summary.notice-head::-webkit-details-marker { display: none; }
+  summary.notice-head::after { content: '▾'; color: var(--muted-soft); font-size: 12px; }
+  details[open] > summary.notice-head::after { content: '▴'; }
+  .notice-dept { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .notice-title { flex: 1 1 220px; min-width: 0; font-weight: 600; color: var(--body); overflow-wrap: anywhere; }
+  .notice-new { font-size: 11px; font-weight: 700; color: #fff; background: var(--primary); border-radius: var(--radius-pill); padding: 1px 7px; white-space: nowrap; }
+  .notice-date { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .notice-detail { padding: 0 12px 12px 12px; font-size: 14px; line-height: 1.65; color: var(--body); overflow-wrap: anywhere; }
+  .notice-detail a { color: var(--ink); font-weight: 600; }
+  .notice-meta { margin-top: 6px; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -213,6 +235,18 @@
       <div class="today-badge" id="todayBadge">오늘</div>
     </div>
 
+    <!-- 부서별 공지사항: Apps Script(?api=notices)가 '오산고 포털 부서별 공지사항' 시트에서 게시 기간 안의 공지만 골라 보냅니다 -->
+    <div class="duty-summary tt-card notice-card" id="noticeCard">
+      <div class="duty-summary-head">
+        <div class="duty-summary-title"><span class="em">📢</span> 부서별 공지사항 <span class="tt-count" id="noticeCount"></span></div>
+        <a class="duty-summary-more" id="noticeSheetLink" href="https://docs.google.com/spreadsheets/d/1eIQ57xWCB2fYBAioZo2LkvetucRrFNCOV_IEiGKLnko/edit" target="_blank" rel="noopener" title="부서 담당 선생님용 입력 시트입니다">공지 입력 ↗</a>
+      </div>
+      <div class="notice-filter" id="noticeFilter" aria-label="부서별로 보기"></div>
+      <div class="duty-summary-body" id="noticeBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
+    </div>
+
     <!-- 오늘의 시간표 변동: Apps Script(?api=timetable)가 컴시간에서 받아 온 결과를 표시 -->
     <div class="duty-summary tt-card" id="ttCard">
       <div class="duty-summary-head">
@@ -355,6 +389,10 @@
   <details class="changelog">
     <summary>업데이트 내역</summary>
     <div class="changelog-body">
+      <div class="changelog-date">2026. 10. 22.</div>
+      <ul>
+        <li>맨 위에 부서별 공지사항 카드 추가 (부서 선생님들이 구글 시트에 입력하면 1분 안에 반영, 부서별 보기·중요 공지 고정·NEW 표시)</li>
+      </ul>
       <div class="changelog-date">2026. 10. 21.</div>
       <ul>
         <li>크롬북 신청 메뉴 추가 (보수신청 옆, 구글 시트 연결)</li>
@@ -1028,6 +1066,125 @@
         document.getElementById('schedBody').innerHTML =
           `<div class="duty-summary-empty">⚠ ${escapeHtml(errMsg(err))}</div>`;
       });
+  })();
+</script>
+
+<script>
+  // ============================================================
+  // 부서별 공지사항
+  // Apps Script(?api=notices)가 '오산고 포털 부서별 공지사항' 시트에서 게시 기간 안의 공지만 골라 보냅니다.
+  // 부서 선생님들이 시트에 입력하면 최대 1분 뒤에 반영됩니다. 정렬(중요 → 최신순)은 Apps Script에서 합니다.
+  // ============================================================
+  (function () {
+    const SHOW = 5;        // 처음에 보여 줄 공지 수 (나머지는 '더 보기')
+    const NEW_DAYS = 2;    // 게시 시작일이 오늘·어제이면 NEW 표시
+    const bodyEl = document.getElementById('noticeBody');
+    const filterEl = document.getElementById('noticeFilter');
+    const countEl = document.getElementById('noticeCount');
+    const linkEl = document.getElementById('noticeSheetLink');
+    if (!bodyEl || !filterEl) return;
+
+    let data = null;
+    let dept = '전체';
+    let expanded = false;
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function linkify(html) {
+      return html.replace(/https?:\/\/[^\s<]*[^\s<.,)]/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+    }
+    function md(key) {
+      if (!key) return '';
+      const p = key.split('-');
+      return `${+p[1]}/${+p[2]}`;
+    }
+    function daysFrom(a, b) {
+      const pa = a.split('-').map(Number), pb = b.split('-').map(Number);
+      return Math.round((Date.UTC(pb[0], pb[1] - 1, pb[2]) - Date.UTC(pa[0], pa[1] - 1, pa[2])) / 86400000);
+    }
+
+    function itemHtml(it, today) {
+      const age = it.start && today ? daysFrom(it.start, today) : -1;
+      const isNew = age >= 0 && age < NEW_DAYS;
+      const period = it.start && it.end ? `${md(it.start)}~${md(it.end)}` : (it.end ? `~${md(it.end)}` : '');
+      const sub = [period, it.author ? esc(it.author) : ''].filter(Boolean).join(' · ');
+      const head =
+        `<span class="notice-dept">${it.important ? '📌 ' : ''}${esc(it.dept)}</span>` +
+        `<span class="notice-title">${esc(it.title)}</span>` +
+        (isNew ? '<span class="notice-new">NEW</span>' : '') +
+        (sub ? `<span class="notice-date">${sub}</span>` : '');
+      const cls = 'notice-item' + (it.important ? ' important' : '');
+      const link = /^https?:\/\//i.test(it.link || '')
+        ? `<div class="notice-meta"><a href="${esc(it.link)}" target="_blank" rel="noopener">관련 자료 열기 ↗</a></div>` : '';
+      const body = it.body ? linkify(esc(it.body)).replace(/\r?\n/g, '<br>') : '';
+      if (!body && !link) return `<div class="${cls}"><div class="notice-head">${head}</div></div>`;
+      return `<details class="${cls}"><summary class="notice-head">${head}</summary>` +
+        `<div class="notice-detail">${body}${link}</div></details>`;
+    }
+
+    function render() {
+      const today = data.today || '';
+      const items = Array.isArray(data.items) ? data.items : [];
+      if (countEl) countEl.textContent = items.length ? `${items.length}건` : '';
+      if (linkEl && /^https:\/\//.test(data.sheetUrl || '')) linkEl.href = data.sheetUrl;
+
+      // 공지가 있는 부서만 시트 탭 순서대로 버튼을 만듭니다.
+      const counts = {};
+      items.forEach((it) => { counts[it.dept] = (counts[it.dept] || 0) + 1; });
+      const depts = (data.depts || []).filter((d) => counts[d]);
+      Object.keys(counts).forEach((d) => { if (depts.indexOf(d) < 0) depts.push(d); });
+      if (dept !== '전체' && !counts[dept]) dept = '전체';
+      filterEl.innerHTML = depts.length > 1
+        ? ['전체'].concat(depts).map((d) =>
+            `<button type="button" class="notice-chip${d === dept ? ' on' : ''}" data-dept="${esc(d)}" aria-pressed="${d === dept}">` +
+            `${esc(d)}<span class="n">${d === '전체' ? items.length : counts[d]}</span></button>`).join('')
+        : '';
+
+      const list = dept === '전체' ? items : items.filter((it) => it.dept === dept);
+      if (!list.length) {
+        bodyEl.innerHTML = '<div class="duty-summary-empty">지금 게시 중인 공지사항이 없습니다.</div>';
+        return;
+      }
+      const shown = expanded ? list : list.slice(0, SHOW);
+      bodyEl.innerHTML = `<div class="notice-list">${shown.map((it) => itemHtml(it, today)).join('')}</div>` +
+        (list.length > SHOW
+          ? `<button type="button" class="tt-more" id="noticeMore">${expanded ? '접기' : `더 보기 (${list.length - SHOW}건)`}</button>`
+          : '');
+    }
+
+    filterEl.addEventListener('click', (e) => {
+      const b = e.target.closest('.notice-chip');
+      if (!b) return;
+      dept = b.dataset.dept;
+      expanded = false;
+      render();
+    });
+    bodyEl.addEventListener('click', (e) => {
+      if (!e.target.closest('#noticeMore')) return;
+      expanded = !expanded;
+      render();
+    });
+
+    async function load() {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 15000);
+      try {
+        if (typeof API_URL === 'undefined') throw new Error('API 주소가 없습니다');
+        const res = await fetch(`${API_URL}?api=notices`, { signal: ctrl.signal });
+        if (!res.ok) throw new Error(`서버 응답 오류 (${res.status})`);
+        const d = await res.json();
+        if (!d || !d.ok) throw new Error((d && d.msg) || '조회 실패');
+        data = d;
+        render();
+      } catch (err) {
+        bodyEl.innerHTML = '<div class="duty-summary-empty">공지사항을 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.</div>';
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    load();
   })();
 </script>
 
