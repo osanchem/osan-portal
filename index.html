@@ -90,6 +90,44 @@
   .notice-detail { padding: 0 12px 12px 12px; font-size: 14px; line-height: 1.65; color: var(--body); overflow-wrap: anywhere; }
   .notice-detail a { color: var(--ink); font-weight: 600; }
   .notice-meta { margin-top: 6px; font-size: 13px; }
+  /* 오늘의 운동부 출결: Apps Script(?api=sports) → '운동부 출결' 시트 */
+  .sp-cardhead { flex-wrap: wrap; gap: 4px 12px; }
+  .sp-cardhead .duty-summary-title, .sp-cardhead .tt-count { white-space: nowrap; }
+  .sp-summary { font-size: 14px; font-weight: 600; color: var(--body); margin: -4px 0 12px; }
+  .sp-summary:empty { display: none; }
+  .sp-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 8px 12px; }
+  .sp-row { background: var(--surface-soft); border-radius: var(--radius-sm); border-left: 3px solid transparent; padding: 10px 12px; min-width: 0; }
+  .sp-row.sp-nat { border-left-color: var(--primary); background: color-mix(in srgb, var(--primary) 6%, var(--canvas)); }
+  .sp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px; min-width: 0; }
+  .sp-sport, .sp-type { border-radius: var(--radius-pill); padding: 1px 9px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .sp-sport { background: var(--canvas); border: 1px solid var(--hairline); color: var(--ink); }
+  .sp-type { background: var(--ink); color: var(--canvas); }
+  .sp-type.sp-part { background: var(--surface-strong); color: var(--body); }
+  .sp-why { min-width: 0; color: var(--body); font-weight: 600; overflow-wrap: anywhere; }
+  .sp-stus { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .sp-stu { background: var(--canvas); border: 1px solid var(--hairline-soft); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .sp-stu b { font-weight: 500; color: var(--muted); margin-right: 4px; }
+  .sp-acc { margin-top: 6px; border-top: 1px dashed var(--hairline); padding-top: 12px; }
+  .sp-acc > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .sp-acc > summary::-webkit-details-marker { display: none; }
+  .sp-acc > summary::after { content: '▾'; color: var(--muted-soft); font-size: 12px; }
+  .sp-acc[open] > summary::after { content: '▴'; }
+  .sp-acc-sub { font-size: 12px; font-weight: 500; color: var(--muted); }
+  .sp-acc-note { margin: 8px 0 10px; font-size: 12px; color: var(--muted); }
+  .sp-acc-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 16px 32px; align-items: start; }
+  .sp-acc-gh { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .sp-acc-gh span { font-weight: 500; color: var(--muted); margin-left: 8px; }
+  .sp-acc-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .sp-acc-table th { padding: 6px 8px; border-bottom: 1px solid var(--hairline); font-size: 12px; font-weight: 600; color: var(--muted); text-align: right; white-space: nowrap; }
+  .sp-acc-table td { padding: 7px 8px; border-bottom: 1px solid var(--hairline-soft); color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sp-acc-table th:first-child, .sp-acc-table td:first-child { text-align: left; padding-left: 0; }
+  .sp-acc-table th + th { width: 64px; }
+  .sp-acc-table tr:last-child td { border-bottom: none; }
+  .sp-acc-who { font-weight: 600; }
+  .sp-acc-who b { font-weight: 500; color: var(--muted); margin-right: 6px; }
+  .sp-acc-table td.sp-acc-nat { color: var(--primary-active); font-weight: 700; }
+  .sp-acc-table td.sp-acc-plan { color: var(--muted); }
+  .sp-acc-table td.sp-zero { color: var(--muted-soft); font-weight: 400; }
 </style>
 </head>
 <body>
@@ -231,7 +269,7 @@
   <section id="view-portal" class="view">
     <div class="portal-hero">
       <h1>오늘, 오산고 교직원실</h1>
-      <p>중식·풋살장 지도와 자기주도학습 감독 담당자 확인, 시설 보수 신청, 출결 확인서 작성을 한 곳에서 처리하세요.</p>
+      <p>중식·풋살장 지도와 자기주도학습 감독 담당자, 오늘의 운동부 출결을 확인하고, 시설 보수 신청과 출결 확인서 작성까지 한 곳에서 처리하세요.</p>
       <div class="today-badge" id="todayBadge">오늘</div>
     </div>
 
@@ -256,6 +294,19 @@
       </div>
       <input type="search" id="ttFilter" class="tt-filter" placeholder="선생님 이름으로 찾기 (예: 홍길동)" autocomplete="off" aria-label="선생님 이름으로 시간표 변동 찾기">
       <div class="duty-summary-body" id="ttBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
+    </div>
+
+    <!-- 오늘의 운동부 출결: Apps Script(?api=sports)가 '운동부 출결' 시트에서 오늘 출결과 학생별 결석일수를 골라 보냅니다 (이름 가운데 글자는 가림) -->
+    <div class="duty-summary tt-card" id="sportsCard">
+      <div class="duty-summary-head sp-cardhead">
+        <div class="duty-summary-title"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
+        <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit" target="_blank" rel="noopener" title="운동부 출결 시트를 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
+      </div>
+      <div class="sp-summary" id="sportsSummary"></div>
+      <div class="notice-filter" id="sportsFilter" aria-label="학년별로 보기"></div>
+      <div class="duty-summary-body" id="sportsBody">
         <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
       </div>
     </div>
@@ -390,6 +441,10 @@
   <details class="changelog">
     <summary>업데이트 내역</summary>
     <div class="changelog-body">
+      <div class="changelog-date">2026. 10. 27.</div>
+      <ul>
+        <li>오늘의 운동부 출결 카드 추가 (학생별 결석일수, 대표팀차출은 따로 셈)</li>
+      </ul>
       <div class="changelog-date">2026. 10. 22.</div>
       <ul>
         <li>맨 위에 부서별 공지사항 카드 추가 (부서 선생님들이 구글 시트에 입력하면 1분 안에 반영, 부서별 보기·중요 공지 고정·NEW 표시)</li>
@@ -880,6 +935,182 @@
     };
 
     loadTimetable();
+  })();
+</script>
+
+<script>
+  // ============================================================
+  // 오늘의 운동부 출결
+  // Apps Script(?api=sports)가 '운동부 출결' 시트에서 오늘 해당하는 인정결석·조퇴·결과·지각과
+  // 학생별 누적 인정결석 일수(대표팀차출은 따로)를 보냅니다.
+  // 이름은 가운데 글자를 가린 상태로 받습니다. 학생 정보는 브라우저에 저장하지 않고 페이지를 열 때마다 새로 불러옵니다.
+  // ============================================================
+  (function () {
+    const SHOW = 6;                                            // 처음에 보여 줄 행 수 (나머지는 '더 보기')
+    const TYPES = ['인정결석', '인정조퇴', '인정결과', '인정지각'];
+    const SHORT = { 인정결석: '인정결석', 인정조퇴: '조퇴', 인정결과: '결과', 인정지각: '지각' };
+    const SPORTS = ['축구', '사격'];                            // 운동부 종목 순서 (축구부, 사격부)
+    const CATS = ['대표팀차출', '대회참가', '훈련', '기타'];
+    const bodyEl = document.getElementById('sportsBody');
+    const filterEl = document.getElementById('sportsFilter');
+    const sumEl = document.getElementById('sportsSummary');
+    const countEl = document.getElementById('sportsCount');
+    if (!bodyEl || !filterEl || !sumEl || !countEl) return;
+
+    let data = null;
+    let grade = 0;           // 0이면 전체
+    let expanded = false;
+    let accOpen = false;     // 학생별 결석일수 펼침 여부
+
+    const rank = (list, v) => { const i = list.indexOf(v); return i < 0 ? list.length : i; };
+    const ko = (a, b) => String(a || '').localeCompare(String(b || ''), 'ko');
+    // 한 학생이 조퇴와 지각처럼 두 번 잡혀도 인원은 한 번만 셉니다.
+    const people = (list) => new Set(list.map((it) => [it.grade, it.cls, it.name, it.sport].join('|'))).size;
+    const ofGrade = (list) => (grade ? list.filter((it) => Number(it.grade) === grade) : list);
+    const md = (key) => { const p = String(key || '').split('-'); return p.length === 3 ? `${+p[1]}. ${+p[2]}.` : ''; };
+
+    // 종목·사유구분·사유상세·출결유형·교시가 모두 같은 학생을 한 행으로 묶습니다.
+    function groupRows(list) {
+      const map = {};
+      const rows = [];
+      list.forEach((it) => {
+        const period = it.type === '인정결석' ? '' : String(it.period || '');
+        const key = [it.type, it.sport, it.cat, it.detail, period].join('|');
+        if (!map[key]) {
+          map[key] = { type: it.type, sport: it.sport, cat: it.cat, detail: String(it.detail || ''), period: period, stus: [] };
+          rows.push(map[key]);
+        }
+        map[key].stus.push(it);
+      });
+      rows.forEach((r) => r.stus.sort((a, b) => a.grade - b.grade || a.cls - b.cls || ko(a.name, b.name)));
+      rows.sort((a, b) =>
+        rank(TYPES, a.type) - rank(TYPES, b.type) ||
+        rank(SPORTS, a.sport) - rank(SPORTS, b.sport) || ko(a.sport, b.sport) ||
+        rank(CATS, a.cat) - rank(CATS, b.cat) || ko(a.detail, b.detail) || ko(a.period, b.period));
+      return rows;
+    }
+
+    function rowHtml(r) {
+      const typeLabel = r.type + (r.period ? ' · ' + r.period : '');
+      const why = r.cat + (r.detail ? ' · ' + r.detail : '');
+      const stus = r.stus.map((s) =>
+        `<span class="sp-stu"><b>${Number(s.grade)}-${Number(s.cls)}</b>${escapeHtml(s.name)}</span>`).join('');
+      return `<div class="sp-row${r.cat === '대표팀차출' ? ' sp-nat' : ''}">` +
+        '<div class="sp-head">' +
+        (r.sport ? `<span class="sp-sport">${escapeHtml(r.sport)}</span>` : '') +
+        `<span class="sp-type${r.type === '인정결석' ? '' : ' sp-part'}">${escapeHtml(typeLabel)}</span>` +
+        `<span class="sp-why">${escapeHtml(why)}</span>` +
+        `</div><div class="sp-stus">${stus}</div></div>`;
+    }
+
+    // 오늘 목록
+    function todayHtml() {
+      if (!data.schoolDay) return '<div class="duty-summary-empty">오늘은 수업일이 아닙니다.</div>';
+      if (!data.items.length) return '<div class="duty-summary-empty">오늘은 운동부 출결 사항이 없습니다.</div>';
+      const list = ofGrade(data.items);
+      if (!list.length) return `<div class="duty-summary-empty">오늘은 ${grade}학년 운동부 출결 사항이 없습니다.</div>`;
+      const rows = groupRows(list);
+      const shown = expanded ? rows : rows.slice(0, SHOW);
+      return `<div class="sp-list">${shown.map(rowHtml).join('')}</div>` +
+        (rows.length > SHOW
+          ? `<button type="button" class="tt-more" id="sportsMore">${expanded ? '접기' : `더 보기 (${rows.length - SHOW}건)`}</button>`
+          : '');
+    }
+
+    // 학생별 결석일수: 종목별 표로 인정결석(대표팀차출 제외)과 대표팀차출을 따로 보여 줍니다.
+    function cell(n, cls) {
+      const v = Number(n) || 0;
+      return `<td class="${cls || ''}${v ? '' : ' sp-zero'}">${v}</td>`;
+    }
+    function accHtml() {
+      if (!data.totals.length) return '';
+      const list = ofGrade(data.totals);
+      const sports = SPORTS.filter((sp) => list.some((s) => s.sport === sp))
+        .concat(Array.from(new Set(list.map((s) => s.sport))).filter((sp) => SPORTS.indexOf(sp) < 0).sort(ko));
+      const groups = sports.map((sp) => {
+        const rows = list.filter((s) => s.sport === sp)
+          .sort((a, b) => a.grade - b.grade || a.cls - b.cls || ko(a.name, b.name));
+        const sum = (k) => rows.reduce((t, s) => t + (Number(s[k]) || 0), 0);
+        const body = rows.map((s) =>
+          `<tr><td class="sp-acc-who"><b>${Number(s.grade)}-${Number(s.cls)}</b>${escapeHtml(s.name)}</td>` +
+          cell(s.abs) + cell(s.nat, 'sp-acc-nat') + cell(s.plan, 'sp-acc-plan') + '</tr>').join('');
+        return '<div class="sp-acc-group">' +
+          `<div class="sp-acc-gh">${escapeHtml(sp || '종목 없음')}${sp ? '부' : ''}<span>${rows.length}명 · 결석 ${sum('abs')}일 · 대표팀 ${sum('nat')}일</span></div>` +
+          '<table class="sp-acc-table"><thead><tr><th>학생</th><th>결석</th><th>대표팀</th><th>예정</th></tr></thead>' +
+          `<tbody>${body}</tbody></table></div>`;
+      }).join('');
+      const since = md(data.since);
+      return `<details class="sp-acc"${accOpen ? ' open' : ''}>` +
+        `<summary>학생별 결석일수<span class="sp-acc-sub">${since ? escapeHtml(since) + '~오늘 · ' : ''}${list.length}명</span></summary>` +
+        '<div class="sp-acc-note">수업일 기준 인정결석 일수입니다. 대표팀차출은 결석과 따로 셉니다. 예정은 내일 이후로 입력된 일수입니다.</div>' +
+        (list.length
+          ? `<div class="sp-acc-groups">${groups}</div>`
+          : `<div class="duty-summary-empty">${grade}학년 운동부 학생이 없습니다.</div>`) +
+        '</details>';
+    }
+
+    function render() {
+      const items = data.items;
+      countEl.textContent = items.length ? `${people(items)}명` : '';
+
+      // 학년 칩: 전체 / 1학년 / 2학년 / 3학년 (부서별 공지사항의 칩 스타일을 그대로 씁니다)
+      filterEl.innerHTML = (items.length || data.totals.length)
+        ? [0, 1, 2, 3].map((g) =>
+            `<button type="button" class="notice-chip${g === grade ? ' on' : ''}" data-grade="${g}" aria-pressed="${g === grade}">` +
+            `${g ? g + '학년' : '전체'}</button>`).join('')
+        : '';
+
+      // 요약: 인정결석 N명 · 조퇴 N명 · 결과 N명 · 지각 N명 (0명인 항목은 숨김)
+      const list = ofGrade(items);
+      sumEl.textContent = TYPES
+        .map((t) => [t, people(list.filter((it) => it.type === t))])
+        .filter((p) => p[1] > 0)
+        .map((p) => `${SHORT[p[0]]} ${p[1]}명`).join(' · ');
+
+      bodyEl.innerHTML = todayHtml() + accHtml();
+    }
+
+    function showMessage(html) {
+      countEl.textContent = '';
+      filterEl.innerHTML = '';
+      sumEl.textContent = '';
+      bodyEl.innerHTML = `<div class="duty-summary-empty">${html}</div>`;
+    }
+
+    async function load() {
+      try {
+        const d = await apiGet('sports');
+        if (!d || !d.ok) throw new Error((d && d.msg) || '조회 실패');
+        data = {
+          schoolDay: !!d.schoolDay,
+          since: d.since || '',
+          items: d.schoolDay && Array.isArray(d.items) ? d.items : [],
+          totals: Array.isArray(d.totals) ? d.totals : [],
+        };
+        render();
+      } catch (err) {
+        showMessage(`⚠ ${escapeHtml(errMsg(err))}`);
+      }
+    }
+
+    filterEl.addEventListener('click', (e) => {
+      const b = e.target.closest('.notice-chip');
+      if (!b) return;
+      grade = Number(b.dataset.grade) || 0;
+      expanded = false;
+      render();
+    });
+    bodyEl.addEventListener('click', (e) => {
+      if (!e.target.closest('#sportsMore')) return;
+      expanded = !expanded;
+      render();
+    });
+    // 학년을 바꿔 다시 그려도 '학생별 결석일수'를 펼친 상태가 유지되도록 기억합니다.
+    bodyEl.addEventListener('toggle', (e) => {
+      if (e.target.classList && e.target.classList.contains('sp-acc')) accOpen = e.target.open;
+    }, true);
+
+    load();
   })();
 </script>
 
