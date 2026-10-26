@@ -91,6 +91,7 @@
   .notice-detail a { color: var(--ink); font-weight: 600; }
   .notice-meta { margin-top: 6px; font-size: 13px; }
   /* 오늘의 운동부 출결: Apps Script(?api=sports) → '운동부 출결' 시트 */
+  .sp-card { margin-top: 24px; }   /* 메뉴 카드 바로 아래에 오므로 위쪽 간격을 둡니다 */
   .sp-cardhead { flex-wrap: wrap; gap: 4px 12px; }
   .sp-cardhead .duty-summary-title, .sp-cardhead .tt-count { white-space: nowrap; }
   .sp-summary { font-size: 14px; font-weight: 600; color: var(--body); margin: -4px 0 12px; }
@@ -298,19 +299,6 @@
       </div>
     </div>
 
-    <!-- 오늘의 운동부 출결: Apps Script(?api=sports)가 '운동부 출결' 시트에서 오늘 출결과 학생별 결석일수를 골라 보냅니다 (이름 가운데 글자는 가림) -->
-    <div class="duty-summary tt-card" id="sportsCard">
-      <div class="duty-summary-head sp-cardhead">
-        <div class="duty-summary-title"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
-        <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit" target="_blank" rel="noopener" title="운동부 출결 시트를 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
-      </div>
-      <div class="sp-summary" id="sportsSummary"></div>
-      <div class="notice-filter" id="sportsFilter" aria-label="학년별로 보기"></div>
-      <div class="duty-summary-body" id="sportsBody">
-        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
-      </div>
-    </div>
-
     <div class="today-duty">
       <div class="duty-summary" onclick="openSheet('lunch')">
         <div class="duty-summary-head">
@@ -373,6 +361,19 @@
         <div class="card-desc">출결 확인서·학생선수 신고서를 한글·워드로 만들고 인쇄합니다. 입력한 명단은 지금 사용하는 브라우저에만 저장됩니다.</div>
         <div class="card-cta">작성하기 →</div>
       </a>
+    </div>
+
+    <!-- 오늘의 운동부 출결: Apps Script(?api=sports)가 '운동부 출결' 시트에서 오늘 출결과 학생별 결석일수를 골라 보냅니다 (이름 가운데 글자는 가림) -->
+    <div class="duty-summary tt-card sp-card" id="sportsCard">
+      <div class="duty-summary-head sp-cardhead">
+        <div class="duty-summary-title"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
+        <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit" target="_blank" rel="noopener" title="운동부 출결 시트를 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
+      </div>
+      <div class="sp-summary" id="sportsSummary"></div>
+      <div class="notice-filter" id="sportsFilter" aria-label="학년별로 보기"></div>
+      <div class="duty-summary-body" id="sportsBody">
+        <div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>
+      </div>
     </div>
 
     <!-- 학사일정: Apps Script(?api=schedule, NEIS 인증키 사용) → 실패하면 NEIS 직접 조회(5건) -->
