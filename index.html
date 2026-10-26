@@ -445,6 +445,7 @@
       <div class="changelog-date">2026. 10. 27.</div>
       <ul>
         <li>오늘의 운동부 출결 카드 추가 (학생별 결석일수, 대표팀차출은 따로 셈)</li>
+        <li>시간표 변동 확인을 매일 오전 7:30, 8:00, 8:30 세 번으로 늘림</li>
       </ul>
       <div class="changelog-date">2026. 10. 22.</div>
       <ul>
@@ -890,7 +891,7 @@
         html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
           `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> ${r.next.swapLabel ? escapeHtml(r.next.swapLabel) + ' 시간표로 운영 · 그 밖의 변동 ' + n + '건' : '변동 ' + n + '건'}</span></div></div>`;
       }
-      html += `<div class="duty-stale">컴시간 기준 · 최종 확인 오늘 ${escapeHtml(r.updatedAt || '')} (매일 07:30·08:30 확인)</div>`;
+      html += `<div class="duty-stale">컴시간 기준 · 최종 확인 오늘 ${escapeHtml(r.updatedAt || '')} (매일 07:30·08:00·08:30 확인)</div>`;
       body.innerHTML = html;
     }
 
