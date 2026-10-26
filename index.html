@@ -91,7 +91,36 @@
   .notice-detail a { color: var(--ink); font-weight: 600; }
   .notice-meta { margin-top: 6px; font-size: 13px; }
   /* 오늘의 운동부 출결: Apps Script(?api=sports) → '운동부 출결' 시트 */
-  .sp-card { margin-top: 24px; }   /* 메뉴 카드 바로 아래에 오므로 위쪽 간격을 둡니다 */
+  .sp-card { margin-top: 24px; }
+  .sp-title { cursor: pointer; }
+  .sp-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .sp-head-links { display: flex; align-items: center; gap: 12px; }
+  .sp-input-btn { border: 1px solid var(--ink); background: var(--ink); color: var(--canvas); border-radius: var(--radius-pill); padding: 5px 12px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .sp-input-btn:hover { background: var(--body); border-color: var(--body); }
+  /* 운동부 출결 입력 화면 */
+  .sp-h3 { margin: 0 0 14px; font-size: 16px; }
+  .sp-code-form { display: flex; gap: 8px; max-width: 420px; }
+  .sp-code-form input { flex: 1; min-width: 0; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 12px 14px; font: inherit; font-size: 15px; color: var(--ink); background: var(--canvas); }
+  .sp-code-form input:focus { outline: none; border-color: var(--ink); }
+  .sp-picker { display: flex; flex-direction: column; gap: 14px; }
+  .sp-pk-sport-h { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .sp-pk-sport-h span { font-weight: 500; color: var(--muted); margin-left: 6px; }
+  .sp-grade { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+  .sp-grade-btn { border: 1px dashed var(--border-strong); background: var(--canvas); color: var(--body); border-radius: var(--radius-pill); padding: 5px 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .sp-grade-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .sp-pick { position: relative; display: inline-flex; cursor: pointer; }
+  .sp-pick input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .sp-pick span { border: 1px solid var(--hairline); background: var(--canvas); color: var(--ink); border-radius: var(--radius-pill); padding: 5px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .sp-pick span b { font-weight: 500; color: var(--muted); margin-right: 4px; }
+  .sp-pick input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--canvas); }
+  .sp-pick input:checked + span b { color: var(--hairline); }
+  .sp-pick input:focus-visible + span { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .sp-confirm { margin: 4px 0 14px; padding: 10px 14px; background: var(--surface-soft); border-radius: var(--radius-sm); font-size: 14px; color: var(--body); overflow-wrap: anywhere; }
+  .sp-confirm:empty { display: none; }
+  .sp-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+  .sp-done { margin-top: 18px; border-top: 1px dashed var(--hairline); padding-top: 12px; font-size: 13px; color: var(--body); }
+  .sp-done b { color: var(--ink); }
+  .sp-done li { margin: 2px 0; }   /* 메뉴 카드 바로 아래에 오므로 위쪽 간격을 둡니다 */
   .sp-cardhead { flex-wrap: wrap; gap: 4px 12px; }
   .sp-cardhead .duty-summary-title, .sp-cardhead .tt-count { white-space: nowrap; }
   .sp-summary { font-size: 14px; font-weight: 600; color: var(--body); margin: -4px 0 12px; }
@@ -270,7 +299,7 @@
   <section id="view-portal" class="view">
     <div class="portal-hero">
       <h1>오늘, 오산고 교직원실</h1>
-      <p>중식·풋살장 지도와 자기주도학습 감독 담당자, 오늘의 운동부 출결을 확인하고, 시설 보수 신청과 출결 확인서 작성까지 한 곳에서 처리하세요.</p>
+      <p>중식·풋살장 지도와 자기주도학습 감독 담당자, 오늘의 운동부 출결을 확인하고, 운동부 출결 입력과 시설 보수 신청, 출결 확인서 작성까지 한 곳에서 처리하세요.</p>
       <div class="today-badge" id="todayBadge">오늘</div>
     </div>
 
@@ -366,8 +395,11 @@
     <!-- 오늘의 운동부 출결: Apps Script(?api=sports)가 '운동부 출결' 시트에서 오늘 출결과 학생별 결석일수를 골라 보냅니다 (이름 가운데 글자는 가림) -->
     <div class="duty-summary tt-card sp-card" id="sportsCard">
       <div class="duty-summary-head sp-cardhead">
-        <div class="duty-summary-title"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
-        <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit" target="_blank" rel="noopener" title="운동부 출결 시트를 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
+        <div class="duty-summary-title sp-title" role="link" tabindex="0" onclick="go('sports')" onkeydown="if(event.key==='Enter')go('sports')" title="운동부 출결 입력 화면으로 이동합니다"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
+        <div class="sp-head-links">
+          <button type="button" class="sp-input-btn" onclick="go('sports')">✏️ 현황 입력</button>
+          <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit#gid=105097068" target="_blank" rel="noopener" title="운동부 출결 시트의 출결기록 탭을 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
+        </div>
       </div>
       <div class="sp-summary" id="sportsSummary"></div>
       <div class="notice-filter" id="sportsFilter" aria-label="학년별로 보기"></div>
@@ -434,6 +466,82 @@
     </div>
   </section>
 
+  <!-- ============ 3. 운동부 출결 입력 ============ -->
+  <!-- Apps Script(doPost: sportsStudents, sportsAdd)가 입력 코드를 확인한 뒤 '운동부 출결' 시트의 출결기록에 행을 추가합니다. -->
+  <section id="view-sports" class="view">
+    <div class="repair-head">
+      <div>
+        <h2 class="page-title">운동부 출결 입력</h2>
+        <p class="page-desc">운동부 학생의 인정결석·조퇴·결과·지각을 입력합니다. 학생마다 한 줄씩 '운동부 출결' 시트의 출결기록에 추가되고, 포털에는 바로 반영됩니다.</p>
+      </div>
+      <a class="btn secondary" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit#gid=105097068" target="_blank" rel="noopener" title="권한이 있는 선생님만 열 수 있습니다">↗ 시트에서 확인·수정</a>
+    </div>
+
+    <div class="duty-card" id="spLockCard">
+      <h3 class="sp-h3">🔒 입력 코드</h3>
+      <form id="spCodeForm" class="sp-code-form" autocomplete="off">
+        <input type="password" id="sp-code" required maxlength="50" placeholder="입력 코드" aria-label="입력 코드" autocomplete="off">
+        <button type="submit" class="btn" id="spCodeBtn">확인</button>
+      </form>
+      <div class="url-hint">담당 선생님께 받은 입력 코드를 넣어 주세요. 코드는 이 브라우저에 저장되지 않으며, 페이지를 새로 열면 다시 넣어야 합니다.</div>
+    </div>
+
+    <div class="duty-card" id="spFormCard" hidden>
+      <form id="spForm" autocomplete="off">
+        <div class="form-row">
+          <label>학생 선택 *</label>
+          <div id="spPicker" class="sp-picker"></div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="sp-start">시작일 *</label>
+            <input type="date" id="sp-start" required>
+          </div>
+          <div>
+            <label for="sp-end">종료일 *</label>
+            <input type="date" id="sp-end" required>
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="sp-cat">사유구분 *</label>
+            <select id="sp-cat" required></select>
+          </div>
+          <div>
+            <label for="sp-type">출결유형 *</label>
+            <select id="sp-type" required></select>
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="sp-detail">사유상세</label>
+            <input type="text" id="sp-detail" maxlength="100" placeholder="예: 국가대표 소집, 전국체전, 연습경기">
+          </div>
+          <div id="spPeriodRow">
+            <label for="sp-period">교시 *</label>
+            <input type="text" id="sp-period" maxlength="30" placeholder="예: 4교시후, 1~4교시">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="sp-basis">근거 (포털에 표시되지 않음)</label>
+            <input type="text" id="sp-basis" maxlength="100" placeholder="예: 공문 번호">
+          </div>
+          <div>
+            <label for="sp-note">비고 (포털에 표시되지 않음)</label>
+            <input type="text" id="sp-note" maxlength="200">
+          </div>
+        </div>
+        <div class="sp-confirm" id="spConfirm"></div>
+        <div class="sp-actions">
+          <button type="button" class="btn secondary" id="spClear">선택 초기화</button>
+          <button type="submit" class="btn" id="spSubmit">출결 입력</button>
+        </div>
+      </form>
+      <div class="sp-done" id="spDone" hidden></div>
+    </div>
+  </section>
+
 </div>
 
 <footer class="staff-notice" style="max-width:1280px; margin:0 auto; padding:20px 24px 32px; border-top:1px solid var(--hairline-soft, #ebebeb); text-align:center; font-size:13px; color:var(--muted, #6a6a6a);">
@@ -446,6 +554,7 @@
       <ul>
         <li>오늘의 운동부 출결 카드 추가 (학생별 결석일수, 대표팀차출은 따로 셈)</li>
         <li>시간표 변동 확인을 매일 오전 7:30, 8:00, 8:30 세 번으로 늘림</li>
+        <li>운동부 출결 입력 화면 추가 (카드 제목이나 '현황 입력' 버튼, 담당 선생님 입력 코드 필요)</li>
       </ul>
       <div class="changelog-date">2026. 10. 22.</div>
       <ul>
@@ -1112,7 +1221,153 @@
       if (e.target.classList && e.target.classList.contains('sp-acc')) accOpen = e.target.open;
     }, true);
 
+    // 입력 화면에서 출결을 입력하면 카드를 새로 불러옵니다.
+    window.sportsReload = load;
+
     load();
+  })();
+</script>
+
+<script>
+  // ============================================================
+  // 운동부 출결 입력 (#sports)
+  // 입력 코드를 Apps Script(doPost: sportsStudents)로 확인한 뒤에만 학생 실명 목록을 받습니다.
+  // 입력 코드와 명단은 이 페이지의 메모리에만 두고, 브라우저 저장소에는 저장하지 않습니다.
+  // ============================================================
+  (function () {
+    const $ = (id) => document.getElementById(id);
+    const lockCard = $('spLockCard'), formCard = $('spFormCard');
+    const codeForm = $('spCodeForm'), codeEl = $('sp-code'), codeBtn = $('spCodeBtn');
+    const form = $('spForm'), picker = $('spPicker');
+    const startEl = $('sp-start'), endEl = $('sp-end'), catEl = $('sp-cat'), typeEl = $('sp-type');
+    const detailEl = $('sp-detail'), periodEl = $('sp-period'), periodRow = $('spPeriodRow');
+    const basisEl = $('sp-basis'), noteEl = $('sp-note');
+    const confirmEl = $('spConfirm'), submitBtn = $('spSubmit'), clearBtn = $('spClear'), doneEl = $('spDone');
+    if (!lockCard || !form) return;
+
+    let code = '';
+    let info = null;          // { today, students, cats, types, absent }
+    const done = [];          // 이 화면에서 입력한 내역 (새로고침하면 사라짐)
+
+    const md = (v) => { const p = String(v || '').split('-'); return p.length === 3 ? `${+p[1]}. ${+p[2]}.` : ''; };
+    const boxes = () => Array.from(picker.querySelectorAll('input[type="checkbox"]'));
+    const pickedIds = () => boxes().filter((b) => b.checked).map((b) => Number(b.value));
+    const byId = (id) => (info ? info.students.find((s) => s.id === id) : null);
+
+    function relock(msg) {
+      code = ''; info = null;
+      picker.innerHTML = '';
+      formCard.hidden = true; lockCard.hidden = false;
+      if (msg) toast(msg, 'err');
+    }
+
+    codeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const c = codeEl.value.trim();
+      if (!c) return;
+      codeBtn.disabled = true; codeBtn.textContent = '확인 중…';
+      try {
+        const r = await apiPost('sportsStudents', { code: c });
+        if (!r || !r.ok) { toast((r && r.msg) || '확인하지 못했습니다.', 'err'); return; }
+        code = c; info = r; codeEl.value = '';
+        setup();
+        lockCard.hidden = true; formCard.hidden = false;
+      } catch (err) {
+        toast(errMsg(err), 'err');
+      } finally {
+        codeBtn.disabled = false; codeBtn.textContent = '확인';
+      }
+    });
+
+    function setup() {
+      const opt = (v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`;
+      catEl.innerHTML = info.cats.map(opt).join('');
+      typeEl.innerHTML = info.types.map(opt).join('');
+      startEl.value = endEl.value = info.today;
+      const sports = [];
+      info.students.forEach((s) => { if (sports.indexOf(s.sport) < 0) sports.push(s.sport); });
+      picker.innerHTML = sports.map((sp) => {
+        const list = info.students.filter((s) => s.sport === sp);
+        const grades = [1, 2, 3].filter((g) => list.some((s) => s.grade === g));
+        return `<div class="sp-pk-sport"><div class="sp-pk-sport-h">${escapeHtml(sp || '종목 없음')}${sp ? '부' : ''}<span>${list.length}명</span></div>` +
+          grades.map((g) => '<div class="sp-grade">' +
+            `<button type="button" class="sp-grade-btn">${g}학년 전체</button>` +
+            list.filter((s) => s.grade === g).map((s) =>
+              `<label class="sp-pick"><input type="checkbox" value="${Number(s.id)}">` +
+              `<span><b>${Number(s.grade)}-${Number(s.cls)}</b>${escapeHtml(s.name)}</span></label>`).join('') +
+            '</div>').join('') + '</div>';
+      }).join('') || '<div class="duty-summary-empty">학생명단에 재학 중인 학생이 없습니다.</div>';
+      updateType();
+      updateConfirm();
+    }
+
+    // 조퇴·결과·지각일 때만 교시 칸을 보여 줍니다.
+    function updateType() {
+      const partial = info && typeEl.value !== info.absent;
+      periodRow.style.visibility = partial ? 'visible' : 'hidden';
+      periodEl.required = !!partial;
+    }
+
+    function updateConfirm() {
+      if (!info) { confirmEl.textContent = ''; return; }
+      const ids = pickedIds();
+      if (!ids.length) { confirmEl.textContent = '입력할 학생을 골라 주세요. 학년 전체 버튼으로 한 번에 고를 수 있습니다.'; return; }
+      const range = startEl.value && endEl.value && endEl.value !== startEl.value ? `${md(startEl.value)}~${md(endEl.value)}` : md(startEl.value);
+      const partial = typeEl.value !== info.absent;
+      confirmEl.textContent = [`선택 ${ids.length}명`, range, catEl.value, detailEl.value.trim(),
+        typeEl.value + (partial && periodEl.value.trim() ? ' · ' + periodEl.value.trim() : '')].filter(Boolean).join(' · ');
+    }
+
+    picker.addEventListener('click', (e) => {
+      const btn = e.target.closest('.sp-grade-btn');
+      if (!btn) return;
+      const group = Array.from(btn.parentElement.querySelectorAll('input[type="checkbox"]'));
+      const all = group.every((b) => b.checked);
+      group.forEach((b) => { b.checked = !all; });
+      updateConfirm();
+    });
+    picker.addEventListener('change', updateConfirm);
+    startEl.addEventListener('change', () => {
+      if (!endEl.value || endEl.value < startEl.value) endEl.value = startEl.value;
+      updateConfirm();
+    });
+    [endEl, catEl, detailEl, periodEl].forEach((el) => el.addEventListener('input', updateConfirm));
+    typeEl.addEventListener('change', () => { updateType(); updateConfirm(); });
+    clearBtn.addEventListener('click', () => { boxes().forEach((b) => { b.checked = false; }); updateConfirm(); });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ids = pickedIds();
+      if (!ids.length) { toast('학생을 한 명 이상 골라 주세요.', 'err'); return; }
+      if (endEl.value && endEl.value < startEl.value) { toast('종료일이 시작일보다 빠릅니다.', 'err'); return; }
+      const payload = {
+        code: code, students: ids, start: startEl.value, end: endEl.value || startEl.value,
+        cat: catEl.value, detail: detailEl.value.trim(), type: typeEl.value, period: periodEl.value.trim(),
+        basis: basisEl.value.trim(), note: noteEl.value.trim(),
+      };
+      submitBtn.disabled = true; submitBtn.textContent = '입력 중…';
+      try {
+        const r = await apiPost('sportsAdd', payload);
+        if (r && r.ok) {
+          toast(r.msg || '입력했습니다.', 'ok');
+          const names = ids.map((id) => { const s = byId(id); return s ? s.name : id; });
+          done.unshift(`${confirmEl.textContent.replace(/^선택 \d+명 · /, '')} — ${names.join(', ')} (${ids.length}명)`);
+          doneEl.innerHTML = '<b>이 화면에서 입력한 내역</b><ul>' + done.slice(0, 10).map((t) => `<li>${escapeHtml(t)}</li>`).join('') + '</ul>';
+          doneEl.hidden = false;
+          boxes().forEach((b) => { b.checked = false; });
+          updateConfirm();
+          if (typeof window.sportsReload === 'function') window.sportsReload();
+        } else if (r && r.codeError) {
+          relock(r.msg);
+        } else {
+          toast((r && r.msg) || '입력하지 못했습니다.', 'err');
+        }
+      } catch (err) {
+        toast(errMsg(err) + ' 시트에서 입력되었는지 확인한 뒤 다시 시도해 주세요.', 'err');
+      } finally {
+        submitBtn.disabled = false; submitBtn.textContent = '출결 입력';
+      }
+    });
   })();
 </script>
 
