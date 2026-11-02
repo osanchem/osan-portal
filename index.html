@@ -97,6 +97,8 @@
   .sp-head-links { display: flex; align-items: center; gap: 12px; }
   .sp-input-btn { border: 1px solid var(--ink); background: var(--ink); color: var(--canvas); border-radius: var(--radius-pill); padding: 5px 12px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
   .sp-input-btn:hover { background: var(--body); border-color: var(--body); }
+  .sp-edit-btn { background: var(--canvas); color: var(--ink); }
+  .sp-edit-btn:hover { background: var(--surface-soft); border-color: var(--ink); color: var(--ink); }
   /* 운동부 출결 입력 화면 */
   .sp-h3 { margin: 0 0 14px; font-size: 16px; }
   .sp-code-form { display: flex; gap: 8px; max-width: 420px; }
@@ -422,6 +424,7 @@
         <div class="duty-summary-title sp-title" role="link" tabindex="0" onclick="go('sports')" onkeydown="if(event.key==='Enter')go('sports')" title="운동부 출결 입력 화면으로 이동합니다"><span class="em">🏅</span> 오늘의 운동부 출결 <span class="tt-count" id="sportsCount"></span></div>
         <div class="sp-head-links">
           <button type="button" class="sp-input-btn" onclick="go('sports')">✏️ 현황 입력</button>
+          <button type="button" class="sp-input-btn sp-edit-btn" onclick="go('sports'); if (window.sportsOpenEdit) window.sportsOpenEdit();" title="이미 입력한 기록을 찾아 고치거나 지웁니다 (입력 코드 필요)">🗂 기록 수정</button>
           <a class="duty-summary-more" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit#gid=105097068" target="_blank" rel="noopener" title="운동부 출결 시트의 출결기록 탭을 새 탭에서 엽니다 (권한이 있는 선생님만 열 수 있습니다)">출결 시트 ↗</a>
         </div>
       </div>
@@ -594,6 +597,7 @@
       <div class="changelog-date">2026. 11. 2.</div>
       <ul>
         <li>운동부 출결 입력 화면에 입력 기록 조회·수정·삭제 기능 추가 (학생 이름으로 찾기, 최근 20·50·100건)</li>
+        <li>오늘의 운동부 출결 카드에 '기록 수정' 단추 추가 (누르면 조회·수정 화면이 바로 열립니다)</li>
         <li>10월 운동부 출결 현황 보고(오산고등학교-13999) 축구부 기록을 출결기록 시트에 반영</li>
       </ul>
       <div class="changelog-date">2026. 10. 27.</div>
@@ -1323,6 +1327,7 @@
         lockCard.hidden = true; formCard.hidden = false;
         const ed = document.getElementById('spEditCard');
         if (ed) ed.hidden = false;
+        edAfterUnlock();
       } catch (err) {
         toast(errMsg(err), 'err');
       } finally {
@@ -1564,6 +1569,24 @@
         toast(errMsg(err) + ' 시트에서 반영되었는지 확인해 주세요.', 'err');
       }
     }
+
+    // 메인 카드의 '기록 수정' 단추에서 부릅니다. 잠겨 있으면 입력 코드 칸으로 보냅니다.
+    let edWanted = false;
+    function edShow() {
+      if (!edCard) return;
+      edCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!edItems.length) edFetch();
+    }
+    function edAfterUnlock() {
+      if (!edWanted) return;
+      edWanted = false;
+      setTimeout(edShow, 150);
+    }
+    window.sportsOpenEdit = function () {
+      if (!edCard) return;
+      if (code) { edWanted = false; setTimeout(edShow, 50); }
+      else { edWanted = true; setTimeout(() => { codeEl.focus(); }, 50); }
+    };
 
     if (edCard) {
       edLoad.addEventListener('click', edFetch);
