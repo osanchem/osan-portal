@@ -121,6 +121,30 @@
   .sp-done { margin-top: 18px; border-top: 1px dashed var(--hairline); padding-top: 12px; font-size: 13px; color: var(--body); }
   .sp-done b { color: var(--ink); }
   .sp-done li { margin: 2px 0; }   /* 메뉴 카드 바로 아래에 오므로 위쪽 간격을 둡니다 */
+  .sp-ed-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 6px; }
+  .sp-ed-head .sp-h3 { margin: 0; }
+  .sp-ed-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sp-ed-tools input, .sp-ed-tools select { border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 9px 12px; font: inherit; font-size: 14px; color: var(--ink); background: var(--canvas); min-width: 0; }
+  .sp-ed-tools input { width: min(220px, 48vw); }
+  .sp-ed-note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .sp-ed-list { display: flex; flex-direction: column; gap: 8px; }
+  .sp-ed-row { background: var(--surface-soft); border-radius: var(--radius-sm); padding: 10px 12px; min-width: 0; }
+  .sp-ed-main { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px; }
+  .sp-ed-who { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .sp-ed-when { color: var(--body); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sp-ed-why { color: var(--body); overflow-wrap: anywhere; }
+  .sp-ed-type { background: var(--ink); color: var(--canvas); border-radius: var(--radius-pill); padding: 1px 9px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .sp-ed-type.sp-part { background: var(--surface-strong); color: var(--body); }
+  .sp-ed-sub { margin-top: 4px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+  .sp-ed-btns { display: flex; gap: 6px; margin-left: auto; }
+  .sp-ed-btn { border: 1px solid var(--hairline); background: var(--canvas); color: var(--body); border-radius: var(--radius-pill); padding: 4px 12px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .sp-ed-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .sp-ed-btn.sp-del:hover { border-color: var(--primary-error); color: var(--primary-error); }
+  .sp-ed-form { margin-top: 10px; border-top: 1px dashed var(--hairline); padding-top: 10px; }
+  .sp-ed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 10px 12px; }
+  .sp-ed-grid label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+  .sp-ed-grid input, .sp-ed-grid select { width: 100%; box-sizing: border-box; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 9px 10px; font: inherit; font-size: 14px; color: var(--ink); background: var(--canvas); }
+  .sp-ed-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 12px; }
   .sp-cardhead { flex-wrap: wrap; gap: 4px 12px; }
   .sp-cardhead .duty-summary-title, .sp-cardhead .tt-count { white-space: nowrap; }
   .sp-summary { font-size: 14px; font-weight: 600; color: var(--body); margin: -4px 0 12px; }
@@ -472,7 +496,7 @@
     <div class="repair-head">
       <div>
         <h2 class="page-title">운동부 출결 입력</h2>
-        <p class="page-desc">운동부 학생의 인정결석·조퇴·결과·지각을 입력합니다. 학생마다 한 줄씩 '운동부 출결' 시트의 출결기록에 추가되고, 포털에는 바로 반영됩니다.</p>
+        <p class="page-desc">운동부 학생의 인정결석·조퇴·결과·지각을 입력합니다. 학생마다 한 줄씩 '운동부 출결' 시트의 출결기록에 추가되고, 포털에는 바로 반영됩니다. 이미 입력한 기록은 아래에서 찾아 고치거나 지울 수 있습니다.</p>
       </div>
       <a class="btn secondary" href="https://docs.google.com/spreadsheets/d/1ni9dDZJaTEjfXOyyWDyxBC1Jjrhg--I3IhYIIeAhy_s/edit#gid=105097068" target="_blank" rel="noopener" title="권한이 있는 선생님만 열 수 있습니다">↗ 시트에서 확인·수정</a>
     </div>
@@ -540,6 +564,23 @@
       </form>
       <div class="sp-done" id="spDone" hidden></div>
     </div>
+
+    <div class="duty-card" id="spEditCard" hidden>
+      <div class="sp-ed-head">
+        <h3 class="sp-h3">🗂 입력 기록 조회·수정</h3>
+        <div class="sp-ed-tools">
+          <input type="search" id="sp-ed-q" maxlength="20" placeholder="학생 이름으로 찾기" aria-label="학생 이름으로 찾기">
+          <select id="sp-ed-limit" aria-label="보여 줄 기록 수">
+            <option value="20">최근 20건</option>
+            <option value="50" selected>최근 50건</option>
+            <option value="100">최근 100건</option>
+          </select>
+          <button type="button" class="btn secondary" id="spEdLoad">불러오기</button>
+        </div>
+      </div>
+      <div class="sp-ed-note">'운동부 출결' 시트의 출결기록을 새것부터 보여 줍니다. 고치거나 지우면 포털에 바로 반영되고, 지운 기록은 되돌릴 수 없습니다.</div>
+      <div id="spEdBody"><div class="duty-summary-empty">불러오기를 눌러 주세요.</div></div>
+    </div>
   </section>
 
 </div>
@@ -550,6 +591,11 @@
   <details class="changelog">
     <summary>업데이트 내역</summary>
     <div class="changelog-body">
+      <div class="changelog-date">2026. 11. 2.</div>
+      <ul>
+        <li>운동부 출결 입력 화면에 입력 기록 조회·수정·삭제 기능 추가 (학생 이름으로 찾기, 최근 20·50·100건)</li>
+        <li>10월 운동부 출결 현황 보고(오산고등학교-13999) 축구부 기록을 출결기록 시트에 반영</li>
+      </ul>
       <div class="changelog-date">2026. 10. 27.</div>
       <ul>
         <li>오늘의 운동부 출결 카드 추가 (학생별 결석일수, 대표팀차출은 따로 셈)</li>
@@ -1258,6 +1304,9 @@
       code = ''; info = null;
       picker.innerHTML = '';
       formCard.hidden = true; lockCard.hidden = false;
+      const ed = document.getElementById('spEditCard');
+      if (ed) ed.hidden = true;
+      edReset();
       if (msg) toast(msg, 'err');
     }
 
@@ -1272,6 +1321,8 @@
         code = c; info = r; codeEl.value = '';
         setup();
         lockCard.hidden = true; formCard.hidden = false;
+        const ed = document.getElementById('spEditCard');
+        if (ed) ed.hidden = false;
       } catch (err) {
         toast(errMsg(err), 'err');
       } finally {
@@ -1368,6 +1419,166 @@
         submitBtn.disabled = false; submitBtn.textContent = '출결 입력';
       }
     });
+
+    // ---------- 입력 기록 조회·수정·삭제 ----------
+    // Apps Script(doPost: sportsRecent, sportsUpdate, sportsDelete)를 씁니다.
+    // 조회할 때 받은 지문(sig)을 함께 보내, 그 사이에 시트에서 바뀐 기록은 덮어쓰지 않습니다.
+    const edCard = $('spEditCard'), edBody = $('spEdBody'), edLoad = $('spEdLoad');
+    const edQ = $('sp-ed-q'), edLimit = $('sp-ed-limit');
+    let edItems = [];
+
+    function edReset() {
+      edItems = [];
+      if (edBody) edBody.innerHTML = '<div class="duty-summary-empty">불러오기를 눌러 주세요.</div>';
+      if (edQ) edQ.value = '';
+    }
+
+    function edRow(it, i) {
+      const partial = info && it.type !== info.absent;
+      const when = it.end && it.end !== it.start ? `${md(it.start)}~${md(it.end)}` : md(it.start);
+      const why = [it.cat, it.detail].filter(Boolean).join(' · ');
+      const sub = [it.basis ? '근거 ' + it.basis : '', it.note ? '비고 ' + it.note : '', it.stamp ? '입력 ' + it.stamp : '']
+        .filter(Boolean).join(' · ');
+      return `<div class="sp-ed-row" data-i="${i}">` +
+        '<div class="sp-ed-main">' +
+          `<span class="sp-ed-who">${escapeHtml(it.student)}</span>` +
+          `<span class="sp-ed-when">${escapeHtml(when)}</span>` +
+          `<span class="sp-ed-why">${escapeHtml(why)}</span>` +
+          `<span class="sp-ed-type${partial ? ' sp-part' : ''}">${escapeHtml(it.type)}${partial && it.period ? ' ' + escapeHtml(it.period) : ''}</span>` +
+          '<span class="sp-ed-btns">' +
+            '<button type="button" class="sp-ed-btn sp-fix">수정</button>' +
+            '<button type="button" class="sp-ed-btn sp-del">삭제</button>' +
+          '</span>' +
+        '</div>' +
+        (sub ? `<div class="sp-ed-sub">${escapeHtml(sub)}</div>` : '') +
+      '</div>';
+    }
+
+    function edRender(msg) {
+      if (!edBody) return;
+      if (msg) { edBody.innerHTML = `<div class="duty-summary-empty">${escapeHtml(msg)}</div>`; return; }
+      if (!edItems.length) { edBody.innerHTML = '<div class="duty-summary-empty">찾는 기록이 없습니다.</div>'; return; }
+      edBody.innerHTML = '<div class="sp-ed-list">' + edItems.map(edRow).join('') + '</div>';
+    }
+
+    async function edFetch() {
+      if (!code) { relock('입력 코드를 다시 넣어 주세요.'); return; }
+      edLoad.disabled = true; edLoad.textContent = '불러오는 중…';
+      edBody.innerHTML = '<div class="duty-summary-empty"><span class="spinner"></span>불러오는 중…</div>';
+      try {
+        const r = await apiPost('sportsRecent', { code: code, limit: Number(edLimit.value) || 50, q: edQ.value.trim() });
+        if (r && r.ok) { edItems = r.items || []; edRender(); }
+        else if (r && r.codeError) { relock(r.msg); }
+        else { edRender((r && r.msg) || '불러오지 못했습니다.'); }
+      } catch (err) {
+        edRender(errMsg(err));
+      } finally {
+        edLoad.disabled = false; edLoad.textContent = '불러오기';
+      }
+    }
+
+    function edOpenForm(rowEl, i) {
+      const it = edItems[i];
+      if (!it || rowEl.querySelector('.sp-ed-form')) return;
+      const opt = (list, cur) => list.map((v) =>
+        `<option value="${escapeHtml(v)}"${v === cur ? ' selected' : ''}>${escapeHtml(v)}</option>`).join('');
+      const cats = (info && info.cats) || [], types = (info && info.types) || [];
+      const box = document.createElement('div');
+      box.className = 'sp-ed-form';
+      box.innerHTML = '<div class="sp-ed-grid">' +
+        `<div><label>시작일</label><input type="date" class="sp-f-start" value="${escapeHtml(it.start)}"></div>` +
+        `<div><label>종료일</label><input type="date" class="sp-f-end" value="${escapeHtml(it.end || it.start)}"></div>` +
+        `<div><label>사유구분</label><select class="sp-f-cat">${opt(cats, it.cat)}</select></div>` +
+        `<div><label>출결유형</label><select class="sp-f-type">${opt(types, it.type)}</select></div>` +
+        `<div><label>사유상세</label><input type="text" class="sp-f-detail" maxlength="100" value="${escapeHtml(it.detail)}"></div>` +
+        `<div><label>교시</label><input type="text" class="sp-f-period" maxlength="30" placeholder="예: 4교시후" value="${escapeHtml(it.period)}"></div>` +
+        `<div><label>근거</label><input type="text" class="sp-f-basis" maxlength="100" value="${escapeHtml(it.basis)}"></div>` +
+        `<div><label>비고</label><input type="text" class="sp-f-note" maxlength="200" value="${escapeHtml(it.note)}"></div>` +
+        '</div>' +
+        '<div class="sp-ed-actions">' +
+          '<button type="button" class="btn secondary sp-f-cancel">취소</button>' +
+          '<button type="button" class="btn sp-f-save">저장</button>' +
+        '</div>';
+      rowEl.appendChild(box);
+      const typeSel = box.querySelector('.sp-f-type'), periodEl2 = box.querySelector('.sp-f-period');
+      const syncPeriod = () => {
+        const partial = info && typeSel.value !== info.absent;
+        periodEl2.disabled = !partial;
+        if (!partial) periodEl2.value = '';
+      };
+      typeSel.addEventListener('change', syncPeriod);
+      syncPeriod();
+      box.querySelector('.sp-f-start').focus();
+    }
+
+    async function edSave(rowEl, i) {
+      const it = edItems[i];
+      const box = rowEl.querySelector('.sp-ed-form');
+      if (!it || !box) return;
+      const val = (cls) => box.querySelector(cls).value.trim();
+      const payload = {
+        code: code, row: it.row, sig: it.sig,
+        start: val('.sp-f-start'), end: val('.sp-f-end') || val('.sp-f-start'),
+        cat: val('.sp-f-cat'), type: val('.sp-f-type'), detail: val('.sp-f-detail'),
+        period: val('.sp-f-period'), basis: val('.sp-f-basis'), note: val('.sp-f-note'),
+      };
+      if (!payload.start) { toast('시작일을 입력해 주세요.', 'err'); return; }
+      if (payload.end < payload.start) { toast('종료일이 시작일보다 빠릅니다.', 'err'); return; }
+      const btn = box.querySelector('.sp-f-save');
+      btn.disabled = true; btn.textContent = '저장 중…';
+      try {
+        const r = await apiPost('sportsUpdate', payload);
+        if (r && r.ok) {
+          toast(r.msg || '고쳤습니다.', 'ok');
+          if (typeof window.sportsReload === 'function') window.sportsReload();
+          await edFetch();
+        } else if (r && r.codeError) {
+          relock(r.msg);
+        } else {
+          toast((r && r.msg) || '고치지 못했습니다.', 'err');
+        }
+      } catch (err) {
+        toast(errMsg(err) + ' 시트에서 반영되었는지 확인해 주세요.', 'err');
+      } finally {
+        btn.disabled = false; btn.textContent = '저장';
+      }
+    }
+
+    async function edDelete(i) {
+      const it = edItems[i];
+      if (!it) return;
+      const when = it.end && it.end !== it.start ? `${md(it.start)}~${md(it.end)}` : md(it.start);
+      if (!window.confirm(`${it.student} · ${when} · ${it.type} 기록을 지웁니다. 되돌릴 수 없습니다. 지울까요?`)) return;
+      try {
+        const r = await apiPost('sportsDelete', { code: code, row: it.row, sig: it.sig });
+        if (r && r.ok) {
+          toast(r.msg || '지웠습니다.', 'ok');
+          if (typeof window.sportsReload === 'function') window.sportsReload();
+          await edFetch();
+        } else if (r && r.codeError) {
+          relock(r.msg);
+        } else {
+          toast((r && r.msg) || '지우지 못했습니다.', 'err');
+        }
+      } catch (err) {
+        toast(errMsg(err) + ' 시트에서 반영되었는지 확인해 주세요.', 'err');
+      }
+    }
+
+    if (edCard) {
+      edLoad.addEventListener('click', edFetch);
+      edQ.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); edFetch(); } });
+      edLimit.addEventListener('change', () => { if (edItems.length) edFetch(); });
+      edBody.addEventListener('click', (e) => {
+        const rowEl = e.target.closest('.sp-ed-row');
+        if (!rowEl) return;
+        const i = Number(rowEl.dataset.i);
+        if (e.target.closest('.sp-fix')) edOpenForm(rowEl, i);
+        else if (e.target.closest('.sp-del')) edDelete(i);
+        else if (e.target.closest('.sp-f-cancel')) { const f = rowEl.querySelector('.sp-ed-form'); if (f) f.remove(); }
+        else if (e.target.closest('.sp-f-save')) edSave(rowEl, i);
+      });
+    }
   })();
 </script>
 
