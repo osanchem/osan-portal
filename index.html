@@ -594,6 +594,11 @@
   <details class="changelog">
     <summary>업데이트 내역</summary>
     <div class="changelog-body">
+      <div class="changelog-date">2026. 11. 3.</div>
+      <ul>
+        <li>시간표 변동 카드가 비어 있던 문제 수정 (예약 확인이 실행되지 않던 문제를 평일 오전 7~9시 30분마다 도는 반복 확인으로 교체)</li>
+        <li>컴시간 접속이 실패하면 최대 세 번까지 다시 시도하고, 오늘 자료가 없으면 포털을 열 때 그 자리에서 한 번 더 확인</li>
+      </ul>
       <div class="changelog-date">2026. 11. 2.</div>
       <ul>
         <li>운동부 출결 입력 화면에 입력 기록 조회·수정·삭제 기능 추가 (학생 이름으로 찾기, 최근 20·50·100건)</li>
@@ -1050,7 +1055,7 @@
         html += `<div class="duty-next tt-foot"><span class="zone-label">다음</span>` +
           `<div class="next-list"><span class="next-item"><b>${escapeHtml(r.next.label)}</b> ${r.next.swapLabel ? escapeHtml(r.next.swapLabel) + ' 시간표로 운영 · 그 밖의 변동 ' + n + '건' : '변동 ' + n + '건'}</span></div></div>`;
       }
-      html += `<div class="duty-stale">컴시간 기준 · 최종 확인 오늘 ${escapeHtml(r.updatedAt || '')} (매일 07:30·08:00·08:30 확인)</div>`;
+      html += `<div class="duty-stale">컴시간 기준 · 최종 확인 오늘 ${escapeHtml(r.updatedAt || '')} (평일 오전 7~9시 30분마다 확인)</div>`;
       body.innerHTML = html;
     }
 
