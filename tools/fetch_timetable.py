@@ -215,8 +215,17 @@ def build_day(
 
 
 def collect_week(
-    school_args: dict, week_num: int, monday: date, swap_days: dict[str, int]
-) -> dict[str, dict]:
+    school_args: dict,
+    week_num: int,
+    monday: date,
+    swap_days: dict[str, int],
+    ref_bases: dict[int, dict] | None = None,
+) -> tuple[dict[str, dict], dict[int, dict]]:
+    """한 주치 결과와, 그 주에서 뽑아낸 요일별 정규 시간표를 함께 돌려줍니다.
+
+    다음 주 시간표는 아직 덜 채워져 있는 경우가 많아, 요일 교환을 따질 기준으로 쓰기 어렵습니다.
+    그래서 ref_bases가 들어오면 그것을 기준 시간표로 삼습니다.
+    """
     timetable_obj = TimeTable(week_num=week_num, **school_args)
     table = timetable_obj.timetable
     pairs = grade_class_pairs(table)
@@ -224,16 +233,17 @@ def collect_week(
         raise RuntimeError("시간표에 학급 정보가 없습니다.")
 
     bases = {d: slot_maps(table, pairs, d)[0] for d in range(1, 6)}
+    reference_bases = ref_bases if ref_bases else bases
 
     days: dict[str, dict] = {}
     for day_index in range(1, 6):
         day = monday + timedelta(days=day_index - 1)
         result = build_day(
-            table, pairs, day_index, bases, swap_days.get(day.isoformat())
+            table, pairs, day_index, reference_bases, swap_days.get(day.isoformat())
         )
         result["label"] = f"{day.month}월 {day.day}일({WEEKDAY_NAMES[day_index - 1][0]})"
         days[day.isoformat()] = result
-    return days
+    return days, bases
 
 
 def resolve_school() -> dict:
@@ -272,11 +282,12 @@ def main() -> int:
 
     swap_days = load_swap_days()
     this_monday = monday_of(now.date())
-    days = collect_week(school_args, 0, this_monday, swap_days)
+    days, bases = collect_week(school_args, 0, this_monday, swap_days)
     try:
-        days.update(
-            collect_week(school_args, 1, this_monday + timedelta(days=7), swap_days)
+        next_days, _ = collect_week(
+            school_args, 1, this_monday + timedelta(days=7), swap_days, bases
         )
+        days.update(next_days)
     except Exception as err:  # 다음 주 시간표는 아직 없을 수 있습니다.
         print(f"다음 주 시간표는 건너뜁니다: {err}", file=sys.stderr)
 
