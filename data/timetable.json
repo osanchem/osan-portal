@@ -1,7 +1,2160 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": null,
- "updatedAt": "",
- "days": {}
+ "generatedAt": "2026-11-10T08:03:04+09:00",
+ "updatedAt": "08:03",
+ "days": {
+  "2026-11-09": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "양O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "하O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "서O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "정치",
+      "teacher": "박O"
+     },
+     "after": {
+      "subject": "정치",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "동역",
+      "teacher": "방O"
+     },
+     "after": {
+      "subject": "동역",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "창진",
+      "teacher": "하O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "고O"
+     }
+    }
+   ],
+   "label": "11월 9일(월)"
+  },
+  "2026-11-10": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "창독",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "화작",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "영독",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "한사",
+      "teacher": "방O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "영어",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "방O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "화작",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "영독",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "일본",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "일본",
+      "teacher": "조O"
+     }
+    }
+   ],
+   "label": "11월 10일(화)"
+  },
+  "2026-11-11": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "과탐",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "영어",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    }
+   ],
+   "label": "11월 11일(수)"
+  },
+  "2026-11-12": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "창진",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "윤O"
+     }
+    }
+   ],
+   "label": "11월 12일(목)"
+  },
+  "2026-11-13": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "통과",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "한사",
+      "teacher": "방O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "통과",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "과탐",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "영어",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "황O"
+     }
+    }
+   ],
+   "label": "11월 13일(금)"
+  },
+  "2026-11-16": {
+   "swapLabel": null,
+   "changes": [
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "통과",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "조O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "통과",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "공수",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "과탐",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "한사",
+      "teacher": "방O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "공영",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "정보",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "기하",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "음미",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "윤사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "물질",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "역학",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "미매",
+      "teacher": "승O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "음미",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "인공",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "일본",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "데과",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "영독",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "수탐",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "음연",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "심국",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "영독",
+      "teacher": "양O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "지미",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "서O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "프로",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "언매",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 7,
+     "before": {
+      "subject": "사탐",
+      "teacher": "이O"
+     },
+     "after": null
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "경수",
+      "teacher": "안O"
+     },
+     "after": null
+    },
+    {
+     "period": 1,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "창진",
+      "teacher": "하O"
+     },
+     "after": null
+    },
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "정보",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "윤O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "공수",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "통사",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "공국",
+      "teacher": "서O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "통사",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "공국",
+      "teacher": "서O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "공국",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "음미",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "물질",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "미매",
+      "teacher": "승O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "문학",
+      "teacher": "권O"
+     },
+     "after": {
+      "subject": "정치",
+      "teacher": "박O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "동역",
+      "teacher": "방O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "영어",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "데과",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "물리",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "화학",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "프로",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "한문",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "창독",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "진영",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "진영",
+      "teacher": "양O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 7,
+     "before": {
+      "subject": "사탐",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "과연",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "창진",
+      "teacher": "하O"
+     },
+     "after": null
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "공영",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "음악",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "통사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "정보",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "공국",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "통사",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "공국",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "조O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "한사",
+      "teacher": "방O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "공수",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "한사",
+      "teacher": "방O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "음미",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "물질",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "미매",
+      "teacher": "승O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "기지",
+      "teacher": "박O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "인공",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "데과",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 7,
+     "before": {
+      "subject": "세영",
+      "teacher": "강O"
+     },
+     "after": null
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "과연",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "중국",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "지구",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "한지",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "창독",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "실경",
+      "teacher": "이O"
+     },
+     "after": null
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "생명",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "논술",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "진영",
+      "teacher": "양O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 7,
+     "before": {
+      "subject": "한지",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "화학",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "직업",
+      "teacher": "하O"
+     },
+     "after": null
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "한사",
+      "teacher": "방O"
+     },
+     "after": {
+      "subject": "체육",
+      "teacher": "류O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "공국",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "통과",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "통과",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "공수",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "공국",
+      "teacher": "서O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "공국",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "정보",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "여지",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "영어",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "기하",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "정치",
+      "teacher": "박O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "음미",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "문학",
+      "teacher": "권O"
+     },
+     "after": {
+      "subject": "인공",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "음연",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "스생",
+      "teacher": "류O"
+     },
+     "after": {
+      "subject": "영독",
+      "teacher": "양O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "영독",
+      "teacher": "양O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "미창",
+      "teacher": "승O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "화작",
+      "teacher": "서O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "언매",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "하O"
+     }
+    },
+    {
+     "period": 4,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": null
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "통사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "공영",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "체육",
+      "teacher": "류O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "정보",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "공국",
+      "teacher": "서O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "공수",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "미술",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "한사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "영어",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "미적",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "윤O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": null
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "지구",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "일본",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "실경",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "프로",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "생명",
+      "teacher": "고O"
+     },
+     "after": {
+      "subject": "지미",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 7,
+     "before": {
+      "subject": "사탐",
+      "teacher": "박O"
+     },
+     "after": {
+      "subject": "사탐",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": null
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "직업",
+      "teacher": "하O"
+     },
+     "after": null
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "공국",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "공수",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "한사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "음악",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "통사",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "정보",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "공영",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "통사",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "통과",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "미술",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "통사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "음미",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "물질",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "윤O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "미매",
+      "teacher": "승O"
+     },
+     "after": {
+      "subject": "창진",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "정치",
+      "teacher": "박O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "동역",
+      "teacher": "방O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "데과",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "스생",
+      "teacher": "류O"
+     },
+     "after": {
+      "subject": "과연",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 2,
+     "before": {
+      "subject": "화작",
+      "teacher": "권O"
+     },
+     "after": {
+      "subject": "지구",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "화작",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "지미",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "창진",
+      "teacher": "하O"
+     },
+     "after": {
+      "subject": "실경",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "영독",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "생명",
+      "teacher": "고O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "영독",
+      "teacher": "양O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 9,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": null
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 1,
+     "before": {
+      "subject": "과탐",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "통사",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 2,
+     "before": {
+      "subject": "창진",
+      "teacher": "서O"
+     },
+     "after": {
+      "subject": "통과",
+      "teacher": "조O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "공영",
+      "teacher": "황O"
+     },
+     "after": {
+      "subject": "한사",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 4,
+     "before": {
+      "subject": "정보",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "공영",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 5,
+     "before": {
+      "subject": "한사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "정보",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 1,
+     "cls": 6,
+     "before": {
+      "subject": "통과",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "미술",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 2,
+     "before": {
+      "subject": "창독",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "황O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "창진",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "영어",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "류O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "일본",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "물리",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "프로",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "논술",
+      "teacher": "조O"
+     },
+     "after": {
+      "subject": "프로",
+      "teacher": "강O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "경수",
+      "teacher": "안O"
+     }
+    }
+   ],
+   "label": "11월 16일(월)"
+  },
+  "2026-11-17": {
+   "swapLabel": null,
+   "changes": [],
+   "label": "11월 17일(화)"
+  },
+  "2026-11-18": {
+   "swapLabel": null,
+   "changes": [],
+   "label": "11월 18일(수)"
+  },
+  "2026-11-19": {
+   "swapLabel": null,
+   "changes": [],
+   "label": "11월 19일(목)"
+  },
+  "2026-11-20": {
+   "swapLabel": null,
+   "changes": [],
+   "label": "11월 20일(금)"
+  }
+ }
 }
