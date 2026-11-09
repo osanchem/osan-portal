@@ -47,7 +47,27 @@ LOCAL_CODE = int(os.environ.get("COMCIGAN_LOCAL_CODE", "0"))
 # 요일 교환일로 볼 최소 일치율입니다. 이 값보다 많이 겹치면 그 요일 시간표로 운영한다고 봅니다.
 SWAP_THRESHOLD = 0.80
 
-OUT_PATH = Path(__file__).resolve().parent.parent / "data" / "timetable.json"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+OUT_PATH = DATA_DIR / "timetable.json"
+# 학교가 미리 정한 요일 교환일을 손으로 적어 두는 파일입니다.
+# 컴시간 자료만으로는 교환일을 가려내지 못하는 날이 있어, 이 파일에 적힌 날은 그대로 따릅니다.
+SWAP_DAYS_PATH = DATA_DIR / "swap_days.json"
+
+
+def load_swap_days() -> dict[str, int]:
+    """{'2026-11-16': '금요일'} 형식의 파일을 {날짜: 요일 번호}로 바꿉니다."""
+    if not SWAP_DAYS_PATH.exists():
+        return {}
+    raw = json.loads(SWAP_DAYS_PATH.read_text(encoding="utf-8"))
+    result: dict[str, int] = {}
+    for day_text, name in (raw or {}).items():
+        if not name:
+            result[day_text] = 0  # 교환일이 아니라고 못 박는 경우입니다.
+            continue
+        if name not in WEEKDAY_NAMES:
+            raise RuntimeError(f"{day_text}의 요일 이름 ‘{name}’을 알아보지 못했습니다.")
+        result[day_text] = WEEKDAY_NAMES.index(name) + 1
+    return result
 
 
 def mask_name(name: str) -> str:
@@ -120,20 +140,34 @@ def similarity(a: dict, b: dict) -> float:
     return same / len(keys)
 
 
-def build_day(timetable, pairs, day_index: int, bases: dict[int, dict]) -> dict:
-    """하루치 결과(요일 교환 여부와 변동 목록)를 만듭니다."""
+def build_day(
+    timetable,
+    pairs,
+    day_index: int,
+    bases: dict[int, dict],
+    forced_swap: int | None = None,
+) -> dict:
+    """하루치 결과(요일 교환 여부와 변동 목록)를 만듭니다.
+
+    forced_swap에 요일 번호가 들어오면 자동 판정을 건너뛰고 그 요일 시간표로 운영한다고 봅니다.
+    0이 들어오면 교환일이 아니라고 못 박습니다.
+    """
     base, actual = slot_maps(timetable, pairs, day_index)
 
-    # 오늘 실제 운영되는 시간표가 다른 요일의 원래 시간표와 더 많이 겹치면 요일 교환일로 봅니다.
     swap_index = None
-    best = similarity(actual, base)
-    for other_index, other_base in bases.items():
-        if other_index == day_index:
-            continue
-        score = similarity(actual, other_base)
-        if score >= SWAP_THRESHOLD and score > best:
-            best = score
-            swap_index = other_index
+    if forced_swap is not None:
+        if forced_swap and forced_swap != day_index:
+            swap_index = forced_swap
+    else:
+        # 실제 운영되는 시간표가 다른 요일의 원래 시간표와 더 많이 겹치면 요일 교환일로 봅니다.
+        best = similarity(actual, base)
+        for other_index, other_base in bases.items():
+            if other_index == day_index:
+                continue
+            score = similarity(actual, other_base)
+            if score >= SWAP_THRESHOLD and score > best:
+                best = score
+                swap_index = other_index
 
     reference = bases[swap_index] if swap_index is not None else base
 
@@ -180,7 +214,9 @@ def build_day(timetable, pairs, day_index: int, bases: dict[int, dict]) -> dict:
     }
 
 
-def collect_week(school_args: dict, week_num: int, monday: date) -> dict[str, dict]:
+def collect_week(
+    school_args: dict, week_num: int, monday: date, swap_days: dict[str, int]
+) -> dict[str, dict]:
     timetable_obj = TimeTable(week_num=week_num, **school_args)
     table = timetable_obj.timetable
     pairs = grade_class_pairs(table)
@@ -192,7 +228,9 @@ def collect_week(school_args: dict, week_num: int, monday: date) -> dict[str, di
     days: dict[str, dict] = {}
     for day_index in range(1, 6):
         day = monday + timedelta(days=day_index - 1)
-        result = build_day(table, pairs, day_index, bases)
+        result = build_day(
+            table, pairs, day_index, bases, swap_days.get(day.isoformat())
+        )
         result["label"] = f"{day.month}월 {day.day}일({WEEKDAY_NAMES[day_index - 1][0]})"
         days[day.isoformat()] = result
     return days
@@ -232,10 +270,13 @@ def main() -> int:
     now = datetime.now(KST)
     school_args = resolve_school()
 
+    swap_days = load_swap_days()
     this_monday = monday_of(now.date())
-    days = collect_week(school_args, 0, this_monday)
+    days = collect_week(school_args, 0, this_monday, swap_days)
     try:
-        days.update(collect_week(school_args, 1, this_monday + timedelta(days=7)))
+        days.update(
+            collect_week(school_args, 1, this_monday + timedelta(days=7), swap_days)
+        )
     except Exception as err:  # 다음 주 시간표는 아직 없을 수 있습니다.
         print(f"다음 주 시간표는 건너뜁니다: {err}", file=sys.stderr)
 
