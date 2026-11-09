@@ -199,31 +199,33 @@ def collect_week(school_args: dict, week_num: int, monday: date) -> dict[str, di
 
 
 def resolve_school() -> dict:
-    """학교 이름이 여러 곳과 겹칠 때를 대비해 코드까지 확정합니다."""
+    """조회에 쓸 학교 정보를 확정합니다.
+
+    검색 결과 항목의 순서는 라이브러리 판에 따라 달라질 수 있으므로,
+    자리로 고르지 않고 학교 이름처럼 보이는 문자열을 찾아 씁니다.
+    """
+    args: dict = {"school_name": SCHOOL_NAME}
+    if SCHOOL_CODE:
+        args["school_code"] = SCHOOL_CODE
+    if LOCAL_CODE:
+        args["local_code"] = LOCAL_CODE
     if SCHOOL_CODE and LOCAL_CODE:
-        return {
-            "school_name": SCHOOL_NAME,
-            "school_code": SCHOOL_CODE,
-            "local_code": LOCAL_CODE,
-        }
+        return args
+
     found = get_school_code(SCHOOL_NAME)
     print(f"학교 검색 결과: {found}", file=sys.stderr)
     if not found:
         raise RuntimeError(f"‘{SCHOOL_NAME}’으로 검색된 학교가 없습니다.")
     if len(found) > 1:
-        exact = [row for row in found if str(row[0]).strip() == SCHOOL_NAME]
-        if len(exact) != 1:
-            raise RuntimeError(
-                f"‘{SCHOOL_NAME}’으로 {len(found)}곳이 검색되었습니다. "
-                "COMCIGAN_SCHOOL_CODE와 COMCIGAN_LOCAL_CODE를 지정해 주세요."
-            )
-        found = exact
-    name, _region, school_code, local_code = found[0]
-    return {
-        "school_name": name,
-        "school_code": int(school_code),
-        "local_code": int(local_code),
-    }
+        raise RuntimeError(
+            f"‘{SCHOOL_NAME}’으로 {len(found)}곳이 검색되었습니다. "
+            "COMCIGAN_SCHOOL_CODE와 COMCIGAN_LOCAL_CODE를 지정해 주세요."
+        )
+    for value in found[0]:
+        if isinstance(value, str) and SCHOOL_NAME in value:
+            args["school_name"] = value
+            break
+    return args
 
 
 def main() -> int:
