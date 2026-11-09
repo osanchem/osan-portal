@@ -1,0 +1,49 @@
+name: 시간표 변동 갱신
+
+# 평일 오전 7시~9시 30분에 30분 간격으로 컴시간 시간표를 받아 data/timetable.json에 저장합니다.
+# GitHub의 cron은 UTC 기준이므로, 한국 시각에서 9시간을 뺀 값을 적었습니다.
+on:
+  schedule:
+    - cron: '0,30 22,23 * * 0-4'   # 한국 시각 월~금 07:00 · 07:30 · 08:00 · 08:30
+    - cron: '0,30 0 * * 1-5'       # 한국 시각 월~금 09:00 · 09:30
+  workflow_dispatch:                # 필요할 때 손으로 실행할 수 있습니다.
+
+permissions:
+  contents: write
+
+concurrency:
+  group: timetable
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 조회 라이브러리 설치
+        # 컴시간이 규약을 바꾸면 라이브러리가 먼저 고쳐지므로 항상 최신 소스를 받습니다.
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade "pycomcigan @ git+https://github.com/hegelty/pycomcigan.git"
+
+      - name: 시간표 받아 오기
+        env:
+          COMCIGAN_SCHOOL: 오산고
+        run: python tools/fetch_timetable.py
+
+      - name: 바뀐 내용이 있으면 커밋
+        run: |
+          if git diff --quiet -- data/timetable.json; then
+            echo "바뀐 내용이 없어 커밋하지 않습니다."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/timetable.json
+          git commit -m "시간표 변동 자료 갱신 [skip ci]"
+          git push
