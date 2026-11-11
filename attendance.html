@@ -116,16 +116,16 @@ table.sg tbody th.rn{z-index:2;cursor:pointer}
 table.sg tbody th.rn:hover{color:var(--danger)}
 table.sg tbody th.rn:hover::after{content:"×";margin-left:3px}
 table.sg tr.filled th.rn{color:var(--ink-60)}
-table.sg th.pk{position:sticky;left:44px;z-index:4;background:#fbfbfd;width:38px;min-width:38px;padding:0;text-align:center}
+table.sg th.pk{position:sticky;left:44px;z-index:4;background:#fbfbfd;width:56px;min-width:56px;padding:0;text-align:center}
 table.sg tbody th.pk{z-index:2}
 table.sg th.pk label{display:flex;align-items:center;justify-content:center;min-height:36px;cursor:pointer}
 table.sg th.pk input{margin:0;width:16px;height:16px;accent-color:var(--primary);cursor:pointer}
 table.sg tr.picked th.rn,table.sg tr.picked th.pk{background:var(--tint)}
 table.sg tr.picked td{background-color:rgba(0,102,204,.035)}
-table.sg th.sb{position:sticky;left:82px;z-index:4;background:#fbfbfd;width:56px;min-width:56px;padding:0;text-align:center}
+table.sg th.sb{position:sticky;left:100px;z-index:4;background:#fbfbfd;width:56px;min-width:56px;padding:0;text-align:center}
 table.sg tbody th.sb{z-index:2}
 table.sg th.sb label{display:flex;align-items:center;justify-content:center;min-height:36px;cursor:pointer}
-table.sg thead th.sb label{flex-direction:column;gap:3px;line-height:1.15;padding:6px 0}
+table.sg thead th.pk label,table.sg thead th.sb label{flex-direction:column;gap:3px;line-height:1.15;padding:6px 0}
 table.sg th.sb input{margin:0;width:16px;height:16px;accent-color:var(--primary);cursor:pointer}
 table.sg tr.subbed th.sb{background:var(--tint-2)}
 table.sg tbody tr:not(.filled) th.sb input{opacity:.3}
@@ -383,7 +383,7 @@ table.sg td.off select{visibility:hidden}
       <li>날짜 칸은 눌러서 달력으로 고르면 되고, 붙여넣을 때는 <b>2026-09-14</b>, <b>2026.9.14</b>, <b>9/14</b> 모두 인식합니다. <b>결석일수</b>는 비워 두면 토·일요일을 뺀 날수로 자동 계산되고, 공휴일이 끼면 직접 고쳐 적으면 됩니다.</li>
       <li>운동부 학생의 대회·훈련 결석과 조퇴는 <b>학생선수 신고서</b> 탭에서 공문(PDF)을 불러와 따로 만듭니다.</li>
       <li><b>담임교사 확인란은 증빙서류 칸이 비어 있을 때만</b> 서식에 적힙니다. 증빙서류를 적으면 옆의 <b>담임확인 사유</b> 칸이 잠깁니다.</li>
-      <li><b>맨 왼쪽 체크박스</b>로 학생을 체크하면 <b>선택 인쇄</b>와 워드·한글 저장이 그 학생만 대상으로 하고, <b>선택 행 삭제</b>를 누르면 체크한 행이 지워집니다.</li>
+      <li><b>선택</b> 칸의 체크박스로 학생을 체크하면 <b>선택 인쇄</b>와 워드·한글 저장이 그 학생만 대상으로 하고, <b>선택 행 삭제</b>를 누르면 체크한 행이 지워집니다.</li>
       <li><b>제출</b> 칸은 학생에게서 확인서를 받았는지 표시해 두는 담임교사 관리용 칸입니다. 체크한 내용은 이 브라우저와 자료 파일(.json)에 함께 보관되지만, <b>서식과 인쇄물에는 나오지 않습니다.</b> 제목 줄의 체크를 누르면 지금 보이는 행이 한꺼번에 바뀝니다.</li>
       <li><b>월별 보기</b>에서 달을 고르면 <b>날짜(시작)</b>가 그 달에 속한 행만 보입니다. 다른 달 기록은 <b>숨어 있을 뿐 지워지지 않으며</b>, 저장·인쇄 대상에서도 빠지지 않습니다. 달을 고른 상태에서는 전체 선택과 선택 행 삭제가 보이는 행에만 적용됩니다.</li>
       <li>맨 위의 <b>저장</b>을 누르면 기본 세팅과 표 내용이 자료 파일(.json)로 저장됩니다. 이 파일을 OneDrive 폴더에 두면 다른 컴퓨터에서 <b>열기</b>로 이어서 작업할 수 있습니다.</li>
@@ -1836,7 +1836,7 @@ function updateStat(){
 /* ---------- 표 그리기 ---------- */
 function renderHead(){
   $("sgHead").innerHTML = '<th class="rn"></th>' +
-    '<th class="pk" title="전체 선택 / 해제"><label><input type="checkbox" id="pkAll" aria-label="전체 선택"></label></th>' +
+    '<th class="pk" title="체크한 행만 선택 인쇄와 워드·한글 저장, 선택 행 삭제의 대상이 됩니다.&#10;제목 칸의 체크를 누르면 지금 보이는 행이 모두 바뀝니다."><label>선택<input type="checkbox" id="pkAll" aria-label="보이는 행 전체 선택"></label></th>' +
     '<th class="sb" title="출결 확인서를 학생에게서 받았는지 표시합니다. 인쇄물과 서식에는 나오지 않습니다.&#10;제목 칸의 체크를 누르면 지금 보이는 행이 모두 바뀝니다."><label>제출<input type="checkbox" id="sbAll" aria-label="보이는 행의 제출 확인 전체 체크"></label></th>' +
     COLS.map(c=>`<th style="width:${c.w}px;min-width:${c.w}px"${c.tip?` title="${A(c.tip)}"`:""}>${A(c.t)}${c.tip?" ⓘ":""}</th>`).join("");
 }
@@ -2984,7 +2984,7 @@ const aTr = (r, i) =>
 function renderAthTable(){
   aEnsureTail();
   $("agHead").innerHTML = '<th class="rn"></th>' +
-    '<th class="pk" title="전체 선택 / 해제"><label><input type="checkbox" id="apkAll" aria-label="전체 선택"></label></th>' +
+    '<th class="pk" title="체크한 행만 학생선수 신고서 저장과 선택 행 삭제의 대상이 됩니다.&#10;제목 칸의 체크를 누르면 모든 행이 바뀝니다."><label>선택<input type="checkbox" id="apkAll" aria-label="전체 선택"></label></th>' +
     ACOLS.map(c => `<th style="width:${c.w}px;min-width:${c.w}px"${c.tip?` title="${A(c.tip)}"`:""}>${A(c.t)}${c.tip?" ⓘ":""}</th>`).join("");
   $("agBody").innerHTML = ath.map(aTr).join("");
   athRefresh();
