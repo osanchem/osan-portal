@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-11T10:45:06+09:00",
- "updatedAt": "10:45",
+ "generatedAt": "2026-11-12T11:44:50+09:00",
+ "updatedAt": "11:44",
  "days": {
   "2026-11-09": {
    "swapLabel": null,
@@ -403,6 +403,19 @@
      }
     },
     {
+     "period": 6,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "하O"
+     }
+    },
+    {
      "period": 7,
      "grade": 2,
      "cls": 1,
@@ -440,6 +453,19 @@
       "subject": "문학",
       "teacher": "윤O"
      }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "김O"
+     }
     }
    ],
    "label": "11월 12일(목)"
@@ -470,6 +496,19 @@
      },
      "after": {
       "subject": "과탐",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "영어",
+      "teacher": "강O"
+     },
+     "after": {
+      "subject": "스생",
       "teacher": "이O"
      }
     },
@@ -532,6 +571,19 @@
      }
     },
     {
+     "period": 3,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "문학",
+      "teacher": "윤O"
+     }
+    },
+    {
      "period": 6,
      "grade": 1,
      "cls": 6,
@@ -542,6 +594,32 @@
      "after": {
       "subject": "공영",
       "teacher": "황O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "박O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 3,
+     "before": {
+      "subject": "스생",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "강O"
      }
     }
    ],
@@ -554,7 +632,21 @@
   },
   "2026-11-18": {
    "swapLabel": null,
-   "changes": [],
+   "changes": [
+    {
+     "period": 1,
+     "grade": 2,
+     "cls": 1,
+     "before": {
+      "subject": "문학",
+      "teacher": "윤O"
+     },
+     "after": {
+      "subject": "스생",
+      "teacher": "이O"
+     }
+    }
+   ],
    "label": "11월 18일(수)"
   },
   "2026-11-19": {
