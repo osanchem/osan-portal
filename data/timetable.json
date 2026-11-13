@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-12T13:31:38+09:00",
- "updatedAt": "13:31",
+ "generatedAt": "2026-11-13T11:27:30+09:00",
+ "updatedAt": "11:27",
  "days": {
   "2026-11-09": {
    "swapLabel": null,
@@ -474,6 +474,58 @@
    "swapLabel": null,
    "changes": [
     {
+     "period": 2,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "화학",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "화학",
+      "teacher": "김O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 5,
+     "before": {
+      "subject": "윤사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "안O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "안O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "최O"
+     }
+    },
+    {
      "period": 4,
      "grade": 1,
      "cls": 3,
@@ -513,6 +565,19 @@
      }
     },
     {
+     "period": 5,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "진영",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "진영",
+      "teacher": "이O"
+     }
+    },
+    {
      "period": 6,
      "grade": 2,
      "cls": 5,
@@ -523,6 +588,32 @@
      "after": {
       "subject": "영어",
       "teacher": "황O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "조O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "과연",
+      "teacher": "정O"
+     },
+     "after": {
+      "subject": "과연",
+      "teacher": "박O"
      }
     },
     {
@@ -549,6 +640,32 @@
      "after": {
       "subject": "영어",
       "teacher": "황O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "영어",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "영어",
+      "teacher": "하O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "고O"
      }
     }
    ],
