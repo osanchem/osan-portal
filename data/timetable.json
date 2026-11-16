@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-16T10:37:23+09:00",
- "updatedAt": "10:37",
+ "generatedAt": "2026-11-16T12:23:39+09:00",
+ "updatedAt": "12:23",
  "days": {
   "2026-11-16": {
    "swapLabel": "금요일",
@@ -1313,6 +1313,71 @@
   "2026-11-17": {
    "swapLabel": null,
    "changes": [
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "창독",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "창독",
+      "teacher": "류O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "화작",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "정O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 3,
+     "grade": 3,
+     "cls": 8,
+     "before": {
+      "subject": "사문",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "사문",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "윤사",
+      "teacher": "김O"
+     },
+     "after": {
+      "subject": "윤사",
+      "teacher": "승O"
+     }
+    },
     {
      "period": 6,
      "grade": 1,
