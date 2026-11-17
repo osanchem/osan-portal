@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-16T12:23:39+09:00",
- "updatedAt": "12:23",
+ "generatedAt": "2026-11-17T13:21:48+09:00",
+ "updatedAt": "13:21",
  "days": {
   "2026-11-16": {
    "swapLabel": "금요일",
@@ -773,8 +773,8 @@
      "cls": 4,
      "before": null,
      "after": {
-      "subject": "미술",
-      "teacher": "김O"
+      "subject": "체육",
+      "teacher": "박O"
      }
     },
     {
@@ -964,7 +964,7 @@
      "before": null,
      "after": {
       "subject": "미술",
-      "teacher": "김O"
+      "teacher": "이O"
      }
     },
     {
@@ -1164,7 +1164,7 @@
      "before": null,
      "after": {
       "subject": "미술",
-      "teacher": "김O"
+      "teacher": "방O"
      }
     },
     {
@@ -1314,6 +1314,32 @@
    "swapLabel": null,
    "changes": [
     {
+     "period": 1,
+     "grade": 3,
+     "cls": 6,
+     "before": {
+      "subject": "언매",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "언매",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 2,
+     "grade": 3,
+     "cls": 1,
+     "before": {
+      "subject": "영독",
+      "teacher": "양O"
+     },
+     "after": {
+      "subject": "영독",
+      "teacher": "강O"
+     }
+    },
+    {
      "period": 2,
      "grade": 3,
      "cls": 3,
@@ -1375,7 +1401,20 @@
      },
      "after": {
       "subject": "윤사",
-      "teacher": "승O"
+      "teacher": "조O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 3,
+     "cls": 4,
+     "before": {
+      "subject": "심국",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "심국",
+      "teacher": "정O"
      }
     },
     {
@@ -1389,6 +1428,19 @@
      "after": {
       "subject": "통과",
       "teacher": "정O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 3,
+     "cls": 3,
+     "before": {
+      "subject": "화작",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "화작",
+      "teacher": "이O"
      }
     }
    ],
