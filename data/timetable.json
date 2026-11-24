@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-24T14:46:36+09:00",
- "updatedAt": "14:46",
+ "generatedAt": "2026-11-24T16:14:53+09:00",
+ "updatedAt": "16:14",
  "days": {
   "2026-11-23": {
    "swapLabel": null,
@@ -160,7 +160,21 @@
   },
   "2026-11-25": {
    "swapLabel": null,
-   "changes": [],
+   "changes": [
+    {
+     "period": 3,
+     "grade": 2,
+     "cls": 4,
+     "before": {
+      "subject": "기지",
+      "teacher": "박O"
+     },
+     "after": {
+      "subject": "기지",
+      "teacher": "강O"
+     }
+    }
+   ],
    "label": "11월 25일(수)"
   },
   "2026-11-26": {
