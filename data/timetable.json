@@ -1,8 +1,8 @@
 {
  "ok": true,
  "school": "오산고등학교",
- "generatedAt": "2026-11-25T14:47:48+09:00",
- "updatedAt": "14:47",
+ "generatedAt": "2026-11-26T14:38:42+09:00",
+ "updatedAt": "14:38",
  "days": {
   "2026-11-23": {
    "swapLabel": null,
@@ -179,7 +179,60 @@
   },
   "2026-11-26": {
    "swapLabel": null,
-   "changes": [],
+   "changes": [
+    {
+     "period": 3,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "통사",
+      "teacher": "최O"
+     },
+     "after": {
+      "subject": "공국",
+      "teacher": "이O"
+     }
+    },
+    {
+     "period": 5,
+     "grade": 1,
+     "cls": 3,
+     "before": {
+      "subject": "공국",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "통사",
+      "teacher": "최O"
+     }
+    },
+    {
+     "period": 6,
+     "grade": 2,
+     "cls": 6,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "권O"
+     }
+    },
+    {
+     "period": 7,
+     "grade": 2,
+     "cls": 5,
+     "before": {
+      "subject": "미적",
+      "teacher": "이O"
+     },
+     "after": {
+      "subject": "미적",
+      "teacher": "하O"
+     }
+    }
+   ],
    "label": "11월 26일(목)"
   },
   "2026-11-27": {
